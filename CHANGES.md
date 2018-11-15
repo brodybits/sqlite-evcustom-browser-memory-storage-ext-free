@@ -1,5 +1,9 @@
 # Changes
 
+# cordova-sqlite-evplus-ext-free 0.4.0-pre001
+
+TBD
+
 # cordova-sqlite-evplus-ext-free 0.3.4-rc1
 
 ### cordova-sqlite-storage 3.0.0-0.00-01
