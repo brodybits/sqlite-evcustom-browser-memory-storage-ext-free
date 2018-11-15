@@ -867,9 +867,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + 'string backspace test (inline vs argument parameter value) [default sqlite HEX encoding: UTF-6le on Windows & Android 4.1-4.3 (WebKit) Web SQL, UTF-8 otherwise]', function(done) {
-          if (isAndroid && !isWebSql && !isImpl2) pending('XXX SKIP: BUG on Android (default Android-sqlite-evcore-native-driver access implementation)'); // XXX ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#28
-
+        it(suiteName + 'string backspace test (inline vs argument parameter value) [XXX ENCODING ISSUE REPRODUCED on Android-evcore-native-driver; default sqlite HEX encoding: UTF-6le on Windows & Android 4.1-4.3 (WebKit) Web SQL, UTF-8 otherwise]', function(done) {
           var db = openDatabase('String-backspace-test.db');
           expect(db).toBeDefined();
 
@@ -881,7 +879,11 @@ var mytests = function() {
               expect(rs1).toBeDefined();
               expect(rs1.rows).toBeDefined();
               expect(rs1.rows.length).toBe(1);
-              expect(rs1.rows.item(0).uppertext).toBe('FIRST\bSECOND');
+              // XXX
+              if (!isWebSql && !isWindows && isAndroid && !isImpl2)
+                expect(rs1.rows.item(0).uppertext).toBe('FIRSTSECOND');
+              else
+                expect(rs1.rows.item(0).uppertext).toBe('FIRST\bSECOND');
 
               // Check value binding & HEX result:
               tx.executeSql("SELECT HEX(?) AS myResult", ['A\b1'], function(tx_ignored, rs2) {
@@ -890,6 +892,8 @@ var mytests = function() {
                 expect(rs2.rows.length).toBe(1);
                 if (isWindows || (isWebSql && isAndroid && /Android 4.[1-3]/.test(navigator.userAgent)))
                   expect(rs2.rows.item(0).myResult).toBe('410008003100'); // (UTF-16le)
+                else if (!isWebSql && isAndroid && !isImpl2) // XXX
+                  expect(rs2.rows.item(0).myResult).toBe('4131'); // XXX
                 else
                   expect(rs2.rows.item(0).myResult).toBe('410831');
 
@@ -1229,7 +1233,7 @@ var mytests = function() {
 
         it(suiteName + 'string manipulation test with UTF-8 3-byte Samaritan character Bit (U+0801)', function(done) {
           // ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#37
-          if (!isWebSql && !isWindows && isAndroid && !isImpl2) pending('XXX KNOWN CRASH ISSUE on Android (default evcore-native-driver database access implementation)'); // XXX
+          // if (!isWebSql && !isWindows && isAndroid && !isImpl2) pending('XXX KNOWN CRASH ISSUE on Android (default evcore-native-driver database access implementation)'); // XXX
 
           var db = openDatabase('UTF8-0801-string-upper-value-test.db');
 
@@ -1302,7 +1306,7 @@ var mytests = function() {
               else if (!isWebSql && !isWindows && isAndroid && !isImpl2 && (/Android [4-5]/.test(navigator.userAgent)))
                 expect(rs1.rows.item(0).myresult).toBe('40EDA080EDBCB1'); // (XXX ENCODING BUG REPRODUCED on default Android NDK implementation on Android 4.x/5.x)
               else if (!isWebSql && !isWindows && isAndroid && !isImpl2) // XXX
-                expect(rs1.rows.item(0).myresult).toBe('40F0908C2D62312D'); // (XXX BUG REPRODUCED on default Android NDK implementation)
+                expect(rs1.rows.item(0).myresult).toBe('403F'); // XXX UTF-8 ENCODING BUG REPRODUCED on default Android NDK post-5.x
               else
                 expect(rs1.rows.item(0).myresult).toBe('40F0908CB1'); // (UTF-8)
 
@@ -1313,9 +1317,9 @@ var mytests = function() {
                 if (isWindows || (isWebSql && isAndroid && /Android 4.[1-3]/.test(navigator.userAgent)))
                   expect(rs2.rows.item(0).myresult).toBe('400000D831DF'); // (UTF-16le)
                 else if (!isWebSql && !isWindows && isAndroid && !isImpl2 && (/Android [4-5]/.test(navigator.userAgent)))
-                  expect(rs2.rows.item(0).myresult).toBe('40EDA080EDBCB1'); // (XXX ENCODING BUG REPRODUCED on default Android NDK implementation on Android 4.x/5.x)
+                  expect(rs2.rows.item(0).myresult).toBe('40EDA080EDBCB1'); // XXX UTF-8 ENCODING BUG REPRODUCED on default Android NDK pre-6.0
                 else if (!isWebSql && !isWindows && isAndroid && !isImpl2) // XXX
-                  expect(rs2.rows.item(0).myresult).toBe('40F0908C2D62312D'); // (XXX BUG REPRODUCED on default Android NDK implementation)
+                  expect(rs2.rows.item(0).myresult).toBe('403F'); // XXX UTF-8 ENCODING BUG REPRODUCED on default Android NDK post-5.x
                 else
                   expect(rs2.rows.item(0).myresult).toBe('40F0908CB1'); // (UTF-8)
 
@@ -1334,8 +1338,8 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + 'string manipulation test with UTF-8 4-byte Gothic bairkan 𐌱 (U+10331)', function(done) {
-          if (!isWebSql && !isWindows && isAndroid && !isImpl2) pending('XXX KNOWN CRASH ISSUE on Android (default evcore-native-driver database access implementation)'); // XXX ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#7
+        it(suiteName + 'string manipulation test with UTF-8 4-byte Gothic bairkan 𐌱 (U+10331) XXX BUG REPRODUCED on Android post-5.x', function(done) {
+          // if (!isWebSql && !isWindows && isAndroid && !isImpl2) pending('XXX KNOWN CRASH ISSUE on Android (default evcore-native-driver database access implementation)'); // XXX GONE ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#7
 
           var db = openDatabase('UTF8-2050-upper-value-string-test.db');
 
@@ -1345,12 +1349,18 @@ var mytests = function() {
               expect(rs1).toBeDefined();
               expect(rs1.rows).toBeDefined();
               expect(rs1.rows.length).toBe(1);
+              if (!isWebSql && isAndroid && !isImpl2 && !(/Android [4-5]/.test(navigator.userAgent))) // XXX Android post-5.x
+                expect(rs1.rows.item(0).myresult).toBe('A?'); // XXX
+              else // XXX
               expect(rs1.rows.item(0).myresult).toBe('A𐌱');
 
               tx.executeSql("SELECT UPPER('a𐌱') AS myresult", null, function(ignored, rs2) {
                 expect(rs2).toBeDefined();
                 expect(rs2.rows).toBeDefined();
                 expect(rs2.rows.length).toBe(1);
+                if (!isWebSql && isAndroid && !isImpl2 && !(/Android [4-5]/.test(navigator.userAgent))) // XXX Android post-5.x
+                  expect(rs2.rows.item(0).myresult).toBe('A?'); // XXX
+                else // XXX
                 expect(rs2.rows.item(0).myresult).toBe('A𐌱');
 
                 // Close (plugin only) & finish:
@@ -1366,8 +1376,8 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + 'Inline emoji string manipulation test: SELECT UPPER("a\\uD83D\\uDE03.") [\\u1F603 SMILING FACE (MOUTH OPEN)]', function(done) {
-          if (!isWebSql && !isWindows && isAndroid && !isImpl2) pending('XXX KNOWN CRASH ISSUE on Android (default evcore-native-driver database access implementation)'); // XXX
+        it(suiteName + 'Inline emoji string manipulation test: SELECT UPPER("a\\uD83D\\uDE03.") [\\u1F603 SMILING FACE (MOUTH OPEN)] XXX BUG REPRODUCED on Android post-5.x', function(done) {
+          // if (!isWebSql && !isWindows && isAndroid && !isImpl2) pending('XXX KNOWN CRASH ISSUE on Android (default evcore-native-driver database access implementation)'); // XXX
 
           var db = openDatabase('Inline-emoji-select-upper-test.db');
           expect(db).toBeDefined();
@@ -1379,6 +1389,9 @@ var mytests = function() {
               expect(rs).toBeDefined();
               expect(rs.rows).toBeDefined();
               expect(rs.rows.length).toBe(1);
+              if (!isWebSql && isAndroid && !isImpl2 && !(/Android [4-5]/.test(navigator.userAgent))) // XXX Android post-5.x
+                expect(rs.rows.item(0).uppertext).toBe('A?.'); // XXX
+              else // XXX
               expect(rs.rows.item(0).uppertext).toBe('A\uD83D\uDE03.');
 
               // Close (plugin only) & finish:
@@ -1393,8 +1406,8 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + 'emoji string argument value manipulation test', function(done) {
-          if (!isWebSql && !isWindows && isAndroid && !isImpl2) pending('XXX KNOWN CRASH ISSUE on Android (default evcore-native-driver database access implementation)'); // XXX
+        it(suiteName + 'emoji string argument value manipulation test XXX BUG REPRODUCED on Android post-5.x', function(done) {
+          // if (!isWebSql && !isWindows && isAndroid && !isImpl2) pending('XXX KNOWN CRASH ISSUE on Android (default evcore-native-driver database access implementation)'); // XXX
 
           var db = openDatabase('emoji-string-argument-upper-value-test.db');
           expect(db).toBeDefined();
@@ -1407,6 +1420,9 @@ var mytests = function() {
               expect(rs.rows).toBeDefined();
               expect(rs.rows.length).toBe(1);
 
+              if (!isWebSql && isAndroid && !isImpl2 && !(/Android [4-5]/.test(navigator.userAgent))) // XXX Android post-5.x
+                expect(rs.rows.item(0).uppertext).toBe('A?.'); // XXX
+              else // XXX
               expect(rs.rows.item(0).uppertext).toBe('A\uD83D\uDE03.');
 
               // Close (plugin only) & finish:
@@ -1443,7 +1459,7 @@ var mytests = function() {
               else if (!isWebSql && !isWindows && isAndroid && !isImpl2 && /Android [4-5]/.test(navigator.userAgent))
                 expect(rs.rows.item(0).hexvalue).toBe('40EDA0BDEDB88321'); // (XXX BUG REPRODUCED on default Android NDK implementation on Android XXX)
               else if (!isWebSql && !isWindows && isAndroid && !isImpl2) // XXX
-                expect(rs.rows.item(0).hexvalue).toBe('40F09F982D38332D21'); // (XXX BUG REPRODUCED on default Android NDK implementation)
+                expect(rs.rows.item(0).hexvalue).toBe('403F21'); // XXX BUG REPRODUCED on default Android NDK on post-5.x
               else
                 expect(rs.rows.item(0).hexvalue).toBe('40F09F988321'); // (UTF-8)
 
@@ -1457,7 +1473,7 @@ var mytests = function() {
                 else if (!isWebSql && !isWindows && isAndroid && !isImpl2 && /Android [4-5]/.test(navigator.userAgent))
                   expect(rs2.rows.item(0).hexvalue).toBe('40EDA0BDEDB88321'); // (XXX BUG REPRODUCED on default Android NDK implementation on Android XXX)
                 else if (!isWebSql && !isWindows && isAndroid && !isImpl2) // XXX
-                  expect(rs2.rows.item(0).hexvalue).toBe('40F09F982D38332D21'); // (XXX BUG REPRODUCED on default Android NDK implementation)
+                  expect(rs2.rows.item(0).hexvalue).toBe('403F21'); // XXX BUG REPRODUCED on default Android NDK on post-5.x
                 else
                   expect(rs2.rows.item(0).hexvalue).toBe('40F09F988321'); // (UTF-8)
 
@@ -1476,9 +1492,9 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + "Inline BLOB with emoji string manipulation test: SELECT LOWER(X'41F09F9883') [A\uD83D\uDE03] [\\u1F603 SMILING FACE (MOUTH OPEN)]", function(done) {
+        it(suiteName + "Inline BLOB with emoji string manipulation test: SELECT LOWER(X'41F09F9883') [A\uD83D\uDE03] [\\u1F603 SMILING FACE (MOUTH OPEN)] XXX KNOWN ENCODING BUG REPRODUCED on Android (default evcore-native-driver database access implementation)", function(done) {
           if (isWebSql && isAndroid && /Android 4.[1-3]/.test(navigator.userAgent)) pending('SKIP for Android 4.1-4.3 (WebKit) Web SQL'); // TBD ???
-          if (!isWebSql && !isWindows && isAndroid && !isImpl2) pending('XXX KNOWN CRASH ISSUE on Android (default evcore-native-driver database access implementation)'); // XXX
+          // if (!isWebSql && !isWindows && isAndroid && !isImpl2) pending('XXX KNOWN CRASH ISSUE on Android (default evcore-native-driver database access implementation)'); // XXX GONE
           if (isWindows) pending('SKIP for Windows'); // FUTURE TBD
 
           var db = openDatabase("Inline-emoji-select-lower-result-test.db", "1.0", "Demo", DEFAULT_SIZE);
@@ -1491,6 +1507,7 @@ var mytests = function() {
               expect(rs).toBeDefined();
               expect(rs.rows).toBeDefined();
               expect(rs.rows.length).toBe(1);
+              if (!isWebSql && isAndroid && !isImpl2) { expect(rs.rows.item(0).lowertext).toBe('a?'); return done(); } // XXX KNOWN BUG REPRODUCED
               expect(rs.rows.item(0).lowertext).toBe('a\uD83D\uDE03');
 
               // Close (plugin only) & finish:

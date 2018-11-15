@@ -538,8 +538,8 @@ var mytests = function() {
         // - litehelpers/Cordova-sqlite-evcore-extbuild-free#19
         // - litehelpers/Android-sqlite-evcore-native-driver-free#1
         // - litehelpers/Cordova-sqlite-evcore-extbuild-free#7 (XXX KNOWN CRASH issue on Android)
-        it(suiteName + 'INSERT TEXT string with emoji [\\u1F603 SMILING FACE (MOUTH OPEN)], SELECT the data, check, and check HEX [XXX TBD TRUNCATION BUG REPRODUCED on Windows; default sqlite HEX encoding: UTF-6le on Windows & Android 4.1-4.3 (WebKit) Web SQL, UTF-8 otherwise]' , function(done) {
-          if (!isWebSql && !isWindows && isAndroid && !isImpl2) pending('XXX KNOWN CRASH ISSUE on Android (default evcore-native-driver database access implementation)'); // XXX
+        it(suiteName + 'INSERT TEXT string with emoji [\\u1F603 SMILING FACE (MOUTH OPEN)], SELECT the data, check, and check HEX [XXX TBD value result IGNORED on Android; TRUNCATION BUG REPRODUCED on Windows; default sqlite HEX encoding: UTF-6le on Windows & Android 4.1-4.3 (WebKit) Web SQL, UTF-8 otherwise]' , function(done) {
+          // if (!isWebSql && !isWindows && isAndroid && !isImpl2) pending('XXX KNOWN CRASH ISSUE on Android (default evcore-native-driver database access implementation)'); // XXX GONE
 
           var db = openDatabase('INSERT-emoji-and-check.db', '1.0', 'Demo', DEFAULT_SIZE);
 
@@ -558,8 +558,14 @@ var mytests = function() {
 
                   var row = rs2.rows.item(0);
                   // Full object check:
+                  if (!isWebSql && !isWindows && isAndroid && !isImpl2 && !(/Android [4-5]/.test(navigator.userAgent))) // XXX BUG XXX
+                    expect(row).toEqual({data: '@?!'}); // XXX BUG XXX
+                  else // XXX
                   expect(row).toEqual({data: '@\uD83D\uDE03!'});
                   // Check individual members:
+                  if (!isWebSql && !isWindows && isAndroid && !isImpl2 && !(/Android [4-5]/.test(navigator.userAgent))) // XXX BUG XXX
+                    expect(row.data).toBe('@?!'); // XXX BUG XXX
+                  else // XXX
                   expect(row.data).toBe('@\uD83D\uDE03!');
 
                   tx.executeSql('SELECT HEX(data) AS hexvalue FROM test_table', [], function(tx_ignored, rs3) {
@@ -567,18 +573,21 @@ var mytests = function() {
                     expect(rs3.rows).toBeDefined();
                     expect(rs3.rows.length).toBe(1);
 
-                    // TBD NOT APPLICABLE in this plugin version
+                    // XXX GONE: NOT APPLICABLE in this plugin version
                     // (TEST SKIPPPED for default evcore-native-driver database
                     //  access implementation due to possible crash on
                     //  Android 7.x/???):
-                    // STOP HERE [HEX encoding BUG] for XXX TBD
+                    // XXX GONE: STOP HERE [HEX encoding BUG] for XXX TBD
                     // if (!isWebSql && !isWindows && isAndroid && !isImpl2) return done();
 
                     if (isWindows || (isWebSql && isAndroid && /Android 4.[1-3]/.test(navigator.userAgent)))
                       expect(rs3.rows.item(0).hexvalue).toBe('40003DD803DE2100'); // (UTF-16le)
-                    /* XXX TBD HEX encoding BUG IGNORED on default Android NDK access implementation (...)
+                    //* XXX CORRECT (no bug) on Android pre-6.0:
+                    else if (!isWebSql && !isWindows && isAndroid && !isImpl2 && /Android [4-5]/.test(navigator.userAgent))
+                      expect(rs3.rows.item(0).hexvalue).toBe('40EDA0BDEDB88321'); // XXX Android pre-6.0 UTF-8
+                    //* XXX TBD HEX encoding BUG REPRODUCED on default Android evcore NDK implementation on post-5.x (...)
                     else if (!isWebSql && isAndroid && !isImpl2)
-                      expect(rs3.rows.item(0).hexvalue).toBe('--'); // (...) */
+                      expect(rs3.rows.item(0).hexvalue).toBe('403F21'); // XXX TBD Anroid post-5.x UTF-8
                     else
                       expect(rs3.rows.item(0).hexvalue).toBe('40F09F988321'); // (UTF-8)
 
@@ -1122,9 +1131,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + "INSERT inline BLOB value (X'FFD1FFD2') and check stored data [XXX SKIP final SELECT on iOS/macOS (evplus only) & Android due to KNOWN CRASH; XXX OTHER PLUGIN ISSUES REPRODUCED: XXX KNOWN SELECT BLOB value ISSUE Windows & Android with androidDatabaseImplementation: 2 setting]", function(done) {
-          if (!isWebSql && isBrowser) pending('XXX SKIP on browser'); // XXX TBD ???
-
+        it(suiteName + "INSERT inline BLOB value (X'FFD1FFD2') and check stored data [XXX SKIP FINAL SELECT CHECK on iOS/macOS (evplus only) & Android due to KNOWN CRASH; Plugin BROKEN: missing result column data; XXX KNOWN SELECT BLOB value ISSUE Windows/XXX]", function(done) {
           var db = openDatabase('INSERT-inline-BLOB-value-FFD1FFD2-and-check-stored-data.db', '1.0', 'Demo', DEFAULT_SIZE);
 
           db.transaction(function(tx) {
@@ -1145,11 +1152,10 @@ var mytests = function() {
                   expect(item).toBeDefined();
                   expect(item.hexValue).toBe('FFD1FFD2');
 
-                  // XXX
-                  // STOP HERE to avoid CRASH on default Android NDK access implementation:
-                  if (!isWebSql && !isWindows && isAndroid && !isImpl2) return done();
-                  // XXX ALSO STOP HERE for plugin on iOS/macOS (evplus):
-                  if (!isWebSql && (isAppleMobileOS || isMac)) return done();
+                  // STOP here in case of Android:
+                  if (!isWindows && isAndroid) return done();
+                  // XXX ALSO STOP HERE on evplus for plugin on iOS/macOS plugin:
+                  if (isAppleMobileOS || isMac) return done();
 
                   tx.executeSql('SELECT * FROM test_table', [], function(ignored, rs3) {
                     if (!isWebSql && isWindows) expect('PLUGIN BEHAVIOR CHANGED: UNEXPECTED SUCCESS on Windows').toBe('--');
@@ -1297,7 +1303,7 @@ var mytests = function() {
                 else if (isWindows)
                   expect(error.message).toMatch(/Error 25 when binding argument to SQL query/);
                 else if (isAndroid && !isImpl2)
-                  expect(error.message).toMatch(/other error.*code 25/);
+                  expect(error.message).toMatch(/other error.*code: 25 message: .*index.*out of range/);
                 else
                   expect(error.message).toMatch(/index.*out of range/);
 
@@ -1351,7 +1357,7 @@ var mytests = function() {
                 else if (isWindows)
                   expect(error.message).toMatch(/Error 25 when binding argument to SQL query/);
                 else if (isAndroid && !isImpl2)
-                  expect(error.message).toMatch(/other error.*code 25/);
+                  expect(error.message).toMatch(/other error.*code: 25 message: .*index.*out of range/);
                 else
                   expect(error.message).toMatch(/index.*out of range/);
 
@@ -1405,7 +1411,7 @@ var mytests = function() {
                 else if (isWindows)
                   expect(error.message).toMatch(/Error 25 when binding argument to SQL query/);
                 else if (isAndroid && !isImpl2)
-                  expect(error.message).toMatch(/other error.*code 25/);
+                  expect(error.message).toMatch(/other error.*code: 25 message: .*index.*out of range/);
                 else
                   expect(error.message).toMatch(/index.*out of range/);
 
@@ -1462,7 +1468,7 @@ var mytests = function() {
                 else if (isWindows)
                   expect(error.message).toMatch(/Error 25 when binding argument to SQL query/);
                 else if (isAndroid && !isImpl2)
-                  expect(error.message).toMatch(/other error.*code 25/);
+                  expect(error.message).toMatch(/other error.*code: 25 message: .*index.*out of range/);
                 else
                   expect(error.message).toMatch(/index.*out of range/);
 
@@ -1479,7 +1485,7 @@ var mytests = function() {
 
         it(suiteName + 'store multiple strings with U+0000 (same as \\0) and check ordering [default sqlite HEX encoding: UTF-6le on Windows plugin (TBD currently not tested here) & Android 4.1-4.3 (WebKit) Web SQL; UTF-8 otherwise]', function (done) {
           if (isWindows) pending('SKIP on Windows (nonsense ordering due to known truncation issue)');
-          if (!isWebSql && !isWindows && isAndroid && !isImpl2) pending('XXX TBD KNOWN ISSUE leads to nonsense ordering on default Android evcore-native-driver database access implementation'); // XXX TBD ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#27
+          if (!isWebSql && !isWindows && isAndroid && !isImpl2) pending('XXX TBD KNOWN ISSUE on default Android evcore-native-driver NDK database access implementation (nonsense ordering due to known truncation issue)'); // XXX TBD ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#27
 
           var db = openDatabase('Store-multiple-U+0000-strings-and-check-ordering.db');
 
@@ -1554,7 +1560,7 @@ var mytests = function() {
                   else if (isWindows)
                     expect(hexValue).toBe('6100'); // (UTF-16le with ENCODING ISSUE REPRODUCED)
                   else if (!isWebSql && isAndroid && !isImpl2)
-                    expect(hexValue).toBe('61303030306364'); // XXX ENCODING ISSUE REPRODUCED on Android (default evcore-native-driver database access implementation)
+                    expect(hexValue).toBe('61303030306364'); // XXX ENCODING ISSUE REPRODUCED on default Android NDK implementation
                   else
                     expect(hexValue).toBe('61006364'); // (UTF-8)
 

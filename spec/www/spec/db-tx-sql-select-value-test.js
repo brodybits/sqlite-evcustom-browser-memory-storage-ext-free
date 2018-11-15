@@ -1068,7 +1068,7 @@ var mytests = function() {
         it(suiteName + "SELECT ABS(?) with '9e999' (Infinity) parameter argument" +
            ((!isWebSql && !isWindows && isAndroid && isImpl2) ? ' [Android PLUGIN BROKEN (androidDatabaseImplementation: 2): result with missing row]' : ''), function(done) {
           if (!isWebSql && !isWindows && isAndroid && !isImpl2) pending('BROKEN for default Android [evcore-native-driver] implementation: hanging tx');
-          if (!isWebSql && !isAndroid && !isWindows) pending('SKIP for iOS/macOS plugin due to CRASH');
+          if (!isWebSql && (isAppleMobileOS || isMac)) pending('KNOWN CRASH on iOS/macOS'); // XXX litehelpers/Cordova-sqlite-storage#405
 
           var db = openDatabase('SELECT-ABS-Infinite-parameter-results-test.db', '1.0', 'Test', DEFAULT_SIZE);
 
@@ -1840,7 +1840,7 @@ var mytests = function() {
 
         it(suiteName + "SELECT X'FFD1FFD2' [TBD BROKEN androidDatabaseImplementation: 2 & Windows; missing result value iOS/macOS; actual value IGNORED]", function(done) {
           if (!isWebSql && !isWindows && isAndroid && !isImpl2) pending('BROKEN: CRASH on Android 5.x/... (default evcore-native-driver database access implementation)');
-          if (!isWebSql && (isAppleMobileOS || isMac)) pending('KNOWN CRASH (evplus) on iOS & macOS'); // XXX
+          if (isAppleMobileOS || isMac) pending('KNOWN CRASH on iOS/macOS (evplus)'); // XXX
 
           var db = openDatabase("Inline-SELECT-BLOB-FFD1FFD2-result-test.db", "1.0", "Demo", DEFAULT_SIZE);
 

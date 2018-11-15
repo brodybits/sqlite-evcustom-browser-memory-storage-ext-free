@@ -1,8 +1,22 @@
 # Changes
 
-# cordova-sqlite-evplus-ext-free 0.4.0-pre001
+# cordova-sqlite-evplus-ext-free 0.4.0-pre01
 
-TBD
+# cordova-sqlite-evplus-ext-free 0.3.6
+
+- evcore-native-driver.jar from cordova-sqlite-evcore-free-dependencies 0.8.6, with cleaner workaround for 4-byte UTF-8 crash bug and fix for Samaritan character crash bug on Android
+
+# cordova-sqlite-evplus-ext-free 0.3.5
+
+- evcore-native-driver.jar from cordova-sqlite-evcore-free-dependencies 0.8.4, with quick fix for error messages on Android
+
+## cordova-plugin-sqlite-evplus-ext-common-free 0.1.3
+
+- Use Array.prototype.concat to solve perf issue
+
+# cordova-sqlite-evplus-ext-free 0.3.4
+
+- Fix stack overflow (CLOBBERED BY UPDATE from cordova-plugin-sqlite-evplus-ext-common-free 0.1.3)
 
 # cordova-sqlite-evplus-ext-free 0.3.4-rc1
 
@@ -10,7 +24,7 @@ TBD
 
 - Initial browser platform support using sql-memory-growth.js from SQL.js, with some limitations as documented
 
-### cordova-sqlite-storage 2.4.0
+#### cordova-sqlite-storage 2.4.0
 
 - Report internal plugin error in case of attempt to open database with no database name on iOS or macOS
 - Cover use of standard (WebKit) Web SQL API in spec test suite
