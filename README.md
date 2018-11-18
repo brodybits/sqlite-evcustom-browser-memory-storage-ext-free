@@ -1,23 +1,41 @@
-# Cordova/PhoneGap sqlite storage - premium enterprise version with premium performance improvements and extra features for PhoneGap Build
+# SQLite evcustom browser memory storage - emulation of Cordova/PhoneGap sqlite storage plugin on browser - custom enterprise version with evplus updates extra features
+
+using sql-memory-growth.js
+
+with Cordova framework optional (not needed)
+
+This plugin version is available under GPL v3 (<https://www.gnu.org/licenses/gpl-3.0.txt>) or evcustom commercial license options and includes components available under the MIT and Apache 2.0 licenses listed in [LICENSE.md](./LICENSE.md). Contact for commercial license: <sales@litehelpers.net>
+
+**NOTICE:** Commercial licenses for other plugin versions such as [evplus (litehelpers / cordova-plugin-sqlite-evplus-ext-common-free)](https://github.com/litehelpers/cordova-plugin-sqlite-evplus-ext-common-free), [evcore (litehelpers / Cordova-sqlite-evcore-extbuild-free)](https://github.com/litehelpers/Cordova-sqlite-evcore-extbuild-free) or [litehelpers / Cordova-sqlite-enterprise-free](https://github.com/litehelpers/Cordova-sqlite-enterprise-free) are **not** valid for this plugin version. For a license upgrade please contact: <sales@litehelpers.net>
+
+## About this plugin version branch
+
+sqlite-evcustom-browser-memory-storage-ext-free - custom enterprise version emulation of Cordova/PhoneGap sqlite storage plugin on browser, with evplus updates and extra features (missing pre-populated database support)
+
+## Installation
+
+Copy the following files and use them in the HTML `script` tag:
+
+* `www/SQLitePlugin.js`
+* `src/browser/SQLiteProxy.js`
+* `src/deps/browser/sql-memory-growth.js`
+
+# Original documentation from cordova-plugin-sqlite-evplus-ext-common-free
+
+**NOTICE:** This version branch only works on browser platform.
 
 Native SQLite component with API based on HTML5/[Web SQL (DRAFT) API](http://www.w3.org/TR/webdatabase/) for the following platforms:
-- Android
+- ~~Android~~
 - browser
-- iOS
-- macOS ("osx" platform)
-- Windows 10 (UWP) DESKTOP and MOBILE (see below for major limitations)
+- ~~iOS~~
+- ~~macOS ("osx" platform)~~
+- ~~Windows 10 (UWP) DESKTOP and MOBILE (see below for major limitations)~~
 
 This plugin version uses a special _non-standard_ Android NDK sqlite database access library (C-language implementation) to provide significant performance and memory usage improvements on the Android platform.
 
 The browser platform is now supported with the following options:
 - This plugin now supports the browser platform using [kripken / sql.js](https://github.com/kripken/sql.js), with no persistence and other limitations described below.
 - Other alternatives documented in [alternative browser platform usage notes](#alternative-browser-platform-usage-notes) section below.
-
-This plugin version uses a special Android NDK sqlite database access library (C-language implementation), with some premium improvements to the internal JSON interface between the Javascript and native Android implementation, to provide significant performance and memory usage improvements on the Android platform.
-
-This plugin version is available under GPL v3 (<https://www.gnu.org/licenses/gpl-3.0.txt>) or commercial license options and includes components available under the MIT and Apache 2.0 licenses listed in [LICENSE.md](./LICENSE.md). Contact for commercial license: <sales@litehelpers.net>
-
-**NOTICE:** _Commercial licenses for [litehelpers / Cordova-sqlite-evcore-extbuild-free](https://github.com/litehelpers/Cordova-sqlite-evcore-extbuild-free) and [litehelpers / Cordova-sqlite-enterprise-free](https://github.com/litehelpers/Cordova-sqlite-enterprise-free) are NOT valid for this plugin version. For an upgrade please contact: <sales@litehelpers.net>_
 
 ## WARNING: Multiple SQLite problem on all platforms
 
@@ -36,14 +54,6 @@ New release in September 2018 will include the following major enhancements ([li
 - drop support for Android pre-4.4 (Android 4.4 with old `armeabi` CPU to be deprecatd with limited updates in the future) ref: [litehelpers/Cordova-sqlite-storage#771](https://github.com/litehelpers/Cordova-sqlite-storage/issues/771)
 - drop support for iOS 8.x (was already dropped by cordova-ios@4.4.0)
 - drop support for location: 0-2 values in openDatabase call (please use `location: 'default'` or `iosDatabaseLocation` setting in openDatabase as documented below)
-
-## About this plugin version
-
-_Premium enterprise version with additional performance improvements for Android/iOS/macOS and extra features for Android/iOS/macOS/Windows (missing pre-populated database support), more extra features to be added as needed by premium commercial license holders._
-
-<!-- XXX GONE:
-__XXX TODO evplus feature MISSING in this plugin version: iOS performance enhancements ref: [litehelpers/cordova-plugin-sqlite-evplus-ext-common-free#2](https://github.com/litehelpers/cordova-plugin-sqlite-evplus-ext-common-free/issues/2)__
-- -->
 
 <!-- FUTURE TBD critical bug notices for this plugin version -->
 

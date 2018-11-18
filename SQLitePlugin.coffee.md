@@ -9,10 +9,6 @@
 
 # Top-level SQLite plugin objects
 
-## root window object:
-
-    root = @
-
 ## constant(s):
 
     READ_ONLY_REGEX = /^(\s|;)*(?:alter|create|delete|drop|insert|reindex|replace|update)/i
@@ -34,6 +30,10 @@
     txLocks = {}
 
 ## utility functions:
+
+    sqlite_exec = (successcb, errorcb, ignored, oper, opts) ->
+      nextTick ->
+        window.SQLiteProxy[oper](successcb, errorcb, opts)
 
     # Errors returned to callbacks must conform to `SqlError` with a code and message.
     # Some errors are of type `Error` or `string` and must be converted.
@@ -274,10 +274,10 @@
         # Wait for callback before opening the database
         # (ignore close error).
         step2 = =>
-          cordova.exec opensuccesscb, openerrorcb, "SQLitePlugin", "open", [ @openargs ]
+          sqlite_exec opensuccesscb, openerrorcb, "SQLitePlugin", "open", [ @openargs ]
           return
 
-        cordova.exec step2, step2, 'SQLitePlugin', 'close', [ { path: @dbname } ]
+        sqlite_exec step2, step2, 'SQLitePlugin', 'close', [ { path: @dbname } ]
 
       return
 
@@ -309,7 +309,7 @@
         # when closing a database (needs testing!!)
         # (and cleanup any other internal resources)
 
-        cordova.exec success, error, "SQLitePlugin", "close", [ { path: @dbname } ]
+        sqlite_exec success, error, "SQLitePlugin", "close", [ { path: @dbname } ]
 
       else
         console.log 'cannot close: database is not open'
@@ -629,10 +629,10 @@
 
       # NOTE: flatlist.length is needed internally for the JSON decoding.
       if @db.dbid isnt -1
-        cordova.exec mycb, null, "SQLitePlugin", "fj:#{flatlist.length};extra", flatlist
+        sqlite_exec mycb, null, "SQLitePlugin", "fj:#{flatlist.length};extra", flatlist
 
       else
-        cordova.exec mycb, null, "SQLitePlugin", "fj",
+        sqlite_exec mycb, null, "SQLitePlugin", "fj",
           [{dbargs: {dbname: @db.dbname}, flen: batchExecutesLength, flatlist: flatlist}]
 
       return
@@ -680,7 +680,7 @@
 
         return
 
-      cordova.exec mycb, null, "SQLitePlugin", "backgroundExecuteSqlBatch", [{dbargs: {dbname: @db.dbname}, executes: tropts}]
+      sqlite_exec mycb, null, "SQLitePlugin", "backgroundExecuteSqlBatch", [{dbargs: {dbname: @db.dbname}, executes: tropts}]
 
       return
 
@@ -887,7 +887,7 @@
         delete SQLitePlugin::dbidmap[args.path]
         delete SQLitePlugin::fjmap[args.path]
 
-        cordova.exec success, error, "SQLitePlugin", "delete", [ args ]
+        sqlite_exec success, error, "SQLitePlugin", "delete", [ args ]
 
 ## Self test:
 
@@ -1150,7 +1150,7 @@
 
 ## Exported API:
 
-    root.sqlitePlugin =
+    sqlitePlugin =
       sqliteFeatures:
         isSQLitePlugin: true
 
@@ -1164,12 +1164,14 @@
         error = (e) ->
           errorcb e
 
-        cordova.exec ok, error, "SQLitePlugin", "echoStringValue", [{value:'test-string'}]
+        sqlite_exec ok, error, "SQLitePlugin", "echoStringValue", [{value:'test-string'}]
 
       selfTest: SelfTest.start
 
       openDatabase: SQLiteFactory.openDatabase
       deleteDatabase: SQLiteFactory.deleteDatabase
+
+    window.sqlitePlugin = sqlitePlugin
 
 ## vim directives
 

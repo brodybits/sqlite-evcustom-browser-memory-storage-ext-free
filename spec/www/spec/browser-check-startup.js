@@ -14,10 +14,14 @@ var isAppleMobileOS = /iPhone/.test(navigator.userAgent) ||
 var hasMobileWKWebView = isAppleMobileOS && !!window.webkit && !!window.webkit.messageHandlers;
 
 window.hasBrowser = true;
-window.hasWebKitWebSQL = isAndroid || (isAppleMobileOS && !isWKWebView) || (isWebKitBrowser && !isEdgeBrowser);
+
+// XXX TBD ???:
+window.hasWebKitWebSQL = (window.cordova) ?
+    isAndroid || (isAppleMobileOS && !isWKWebView) || (isWebKitBrowser && !isEdgeBrowser) : false
 
 describe('Check startup for navigator.userAgent: ' + navigator.userAgent, function() {
   it('receives deviceready event', function(done) {
+    if (!window.cordova) pending('SKIP due to lack of Cordova framework used');
     expect(true).toBe(true);
     document.addEventListener("deviceready", function() {
       done();

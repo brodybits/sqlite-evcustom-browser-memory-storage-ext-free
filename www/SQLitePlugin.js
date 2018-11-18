@@ -4,9 +4,7 @@ Contact for commercial license: sales@litehelpers.net
  */
 
 (function() {
-  var DB_STATE_INIT, DB_STATE_OPEN, READ_ONLY_REGEX, SQLiteFactory, SQLitePlugin, SQLitePluginTransaction, SelfTest, argsArray, dblocations, iosLocationMap, newSQLError, nextTick, root, txLocks;
-
-  root = this;
+  var DB_STATE_INIT, DB_STATE_OPEN, READ_ONLY_REGEX, SQLiteFactory, SQLitePlugin, SQLitePluginTransaction, SelfTest, argsArray, dblocations, iosLocationMap, newSQLError, nextTick, sqlitePlugin, sqlite_exec, txLocks;
 
   READ_ONLY_REGEX = /^(\s|;)*(?:alter|create|delete|drop|insert|reindex|replace|update)/i;
 
@@ -15,6 +13,12 @@ Contact for commercial license: sales@litehelpers.net
   DB_STATE_OPEN = "OPEN";
 
   txLocks = {};
+
+  sqlite_exec = function(successcb, errorcb, ignored, oper, opts) {
+    return nextTick(function() {
+      return window.SQLiteProxy[oper](successcb, errorcb, opts);
+    });
+  };
 
   newSQLError = function(error, code) {
     var sqlError;
@@ -223,10 +227,10 @@ Contact for commercial license: sales@litehelpers.net
       this.fjmap[this.dbname] = false;
       step2 = (function(_this) {
         return function() {
-          cordova.exec(opensuccesscb, openerrorcb, "SQLitePlugin", "open", [_this.openargs]);
+          sqlite_exec(opensuccesscb, openerrorcb, "SQLitePlugin", "open", [_this.openargs]);
         };
       })(this);
-      cordova.exec(step2, step2, 'SQLitePlugin', 'close', [
+      sqlite_exec(step2, step2, 'SQLitePlugin', 'close', [
         {
           path: this.dbname
         }
@@ -248,7 +252,7 @@ Contact for commercial license: sales@litehelpers.net
       } else {
         console.log('closing db with no transaction lock state');
       }
-      cordova.exec(success, error, "SQLitePlugin", "close", [
+      sqlite_exec(success, error, "SQLitePlugin", "close", [
         {
           path: this.dbname
         }
@@ -544,9 +548,9 @@ Contact for commercial license: sales@litehelpers.net
       }
     };
     if (this.db.dbid !== -1) {
-      cordova.exec(mycb, null, "SQLitePlugin", "fj:" + flatlist.length + ";extra", flatlist);
+      sqlite_exec(mycb, null, "SQLitePlugin", "fj:" + flatlist.length + ";extra", flatlist);
     } else {
-      cordova.exec(mycb, null, "SQLitePlugin", "fj", [
+      sqlite_exec(mycb, null, "SQLitePlugin", "fj", [
         {
           dbargs: {
             dbname: this.db.dbname
@@ -595,7 +599,7 @@ Contact for commercial license: sales@litehelpers.net
         ++i;
       }
     };
-    cordova.exec(mycb, null, "SQLitePlugin", "backgroundExecuteSqlBatch", [
+    sqlite_exec(mycb, null, "SQLitePlugin", "backgroundExecuteSqlBatch", [
       {
         dbargs: {
           dbname: this.db.dbname
@@ -766,7 +770,7 @@ Contact for commercial license: sales@litehelpers.net
       delete SQLitePlugin.prototype.openDBs[args.path];
       delete SQLitePlugin.prototype.dbidmap[args.path];
       delete SQLitePlugin.prototype.fjmap[args.path];
-      return cordova.exec(success, error, "SQLitePlugin", "delete", [args]);
+      return sqlite_exec(success, error, "SQLitePlugin", "delete", [args]);
     }
   };
 
@@ -1018,7 +1022,7 @@ Contact for commercial license: sales@litehelpers.net
     }
   };
 
-  root.sqlitePlugin = {
+  sqlitePlugin = {
     sqliteFeatures: {
       isSQLitePlugin: true
     },
@@ -1034,7 +1038,7 @@ Contact for commercial license: sales@litehelpers.net
       error = function(e) {
         return errorcb(e);
       };
-      return cordova.exec(ok, error, "SQLitePlugin", "echoStringValue", [
+      return sqlite_exec(ok, error, "SQLitePlugin", "echoStringValue", [
         {
           value: 'test-string'
         }
@@ -1044,5 +1048,7 @@ Contact for commercial license: sales@litehelpers.net
     openDatabase: SQLiteFactory.openDatabase,
     deleteDatabase: SQLiteFactory.deleteDatabase
   };
+
+  window.sqlitePlugin = sqlitePlugin;
 
 }).call(this);

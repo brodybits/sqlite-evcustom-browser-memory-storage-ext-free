@@ -128,7 +128,7 @@ function deleteDatabase(success, error, options) {
   setTimeout(success, 0);
 }
 
-module.exports = {
+var SQLiteProxy = {
   echoStringValue: echoStringValue,
   open: openDatabase,
   backgroundExecuteSqlBatch: backgroundExecuteSqlBatch,
@@ -136,4 +136,4 @@ module.exports = {
   delete: deleteDatabase
 }
 
-require('cordova/exec/proxy').add('SQLitePlugin', module.exports);
+window.SQLiteProxy = SQLiteProxy;

@@ -1,5 +1,9 @@
 # Changes
 
+# sqlite-evcustom-browser-memory-storage-ext-free 0.0.1-dev
+
+- New version for browser platform, with Cordova framework optional (not needed)
+
 # cordova-sqlite-evplus-ext-free 0.4.0-pre01
 
 # cordova-sqlite-evplus-ext-free 0.3.6
