@@ -1171,6 +1171,9 @@
       openDatabase: SQLiteFactory.openDatabase
       deleteDatabase: SQLiteFactory.deleteDatabase
 
+      getInnerDatabase: (name) -> window.SQLiteProxy.getInnerDatabase(name)
+      setInnerDatabase: (name, db) -> window.SQLiteProxy.setInnerDatabase(name, db)
+
     window.sqlitePlugin = sqlitePlugin
 
 ## vim directives

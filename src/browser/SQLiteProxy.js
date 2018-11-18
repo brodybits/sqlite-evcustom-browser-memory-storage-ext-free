@@ -2,6 +2,14 @@ var dbmap = {};
 
 var closed_dbmap = {};
 
+function getInnerDatabase(name) {
+  return dbmap[name] || null;
+}
+
+function setInnerDatabase(name, db) {
+  dbmap[name] = db;
+}
+
 function echoStringValue(success, error, options) {
   success(options[0].value);
 }
@@ -129,6 +137,8 @@ function deleteDatabase(success, error, options) {
 }
 
 var SQLiteProxy = {
+  getInnerDatabase: getInnerDatabase,
+  setInnerDatabase: setInnerDatabase,
   echoStringValue: echoStringValue,
   open: openDatabase,
   backgroundExecuteSqlBatch: backgroundExecuteSqlBatch,

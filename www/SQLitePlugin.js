@@ -1046,7 +1046,13 @@ Contact for commercial license: sales@litehelpers.net
     },
     selfTest: SelfTest.start,
     openDatabase: SQLiteFactory.openDatabase,
-    deleteDatabase: SQLiteFactory.deleteDatabase
+    deleteDatabase: SQLiteFactory.deleteDatabase,
+    getInnerDatabase: function(name) {
+      return window.SQLiteProxy.getInnerDatabase(name);
+    },
+    setInnerDatabase: function(name, db) {
+      return window.SQLiteProxy.setInnerDatabase(name, db);
+    }
   };
 
   window.sqlitePlugin = sqlitePlugin;

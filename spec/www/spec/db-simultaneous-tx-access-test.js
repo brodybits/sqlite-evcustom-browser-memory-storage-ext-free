@@ -323,10 +323,12 @@ var mytests = function() {
           });
         });
 
-        test_it(suiteName + ' same database file with separate writer/reader db handles', function () {
-          var dbname = 'writer-reader-test.db';
-          var dbw = openDatabase(dbname, "1.0", "Demo", DEFAULT_SIZE);
-          var dbr = openDatabase(dbname, "1.0", "Demo", DEFAULT_SIZE);
+        // adapted test:
+        test_it(suiteName + ' same database file, with inner database transferred from writer db access object to reader db access object', function () {
+          if (isWebSql) pending('SKIP for (WebKit) Web SQL');
+
+          var mydbname = 'inner-database-object-from-writer-to-reader-test.db';
+          var dbw = window.sqlitePlugin.openDatabase({name: mydbname, location: 'default'});
 
           stop(1);
 
@@ -339,6 +341,10 @@ var mytests = function() {
             ok(false, error.message);
             start(1);
           }, function() {
+            var inner = window.sqlitePlugin.getInnerDatabase(mydbname);
+            window.sqlitePlugin.setInnerDatabase(mydbname, null);
+            window.sqlitePlugin.setInnerDatabase('a1', inner);
+            var dbr = window.sqlitePlugin.openDatabase({name: 'a1', location: 'default'});
             dbr.readTransaction(function (tx) {
               tx.executeSql('SELECT test_data from tt', [], function (tx, result) {
                 equal(result.rows.item(0).test_data, 'My-test-data', 'read data from reader handle');
