@@ -2,7 +2,7 @@
   "name": "sqlite-evcustom-browser-memory-storage-ext-free",
   "version": "0.0.1-dev",
   "description": "SQLite evcustom browser memory storage - emulation of Cordova/PhoneGap sqlite storage plugin on browser - custom enterprise version with premium performance improvements and extra features",
-  "cordova": {
+  "cordova-disabled": {
     "id": "sqlite-evcustom-browser-memory-storage-ext-free",
     "platforms": [
       "android",
@@ -18,7 +18,7 @@
   },
   "keywords": [
     "sqlite",
-    "ecosystem:cordova",
+    "ecosystem:cordova-disabled",
     "cordova-android",
     "cordova-browser",
     "cordova-ios",

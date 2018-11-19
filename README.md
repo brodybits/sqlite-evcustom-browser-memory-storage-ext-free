@@ -2,7 +2,7 @@
 
 using sql-memory-growth.js
 
-with Cordova framework optional (not needed)
+with Cordova framework not supported, not needed
 
 This plugin version is available under GPL v3 (<https://www.gnu.org/licenses/gpl-3.0.txt>) or evcustom commercial license options and includes components available under the MIT and Apache 2.0 licenses listed in [LICENSE.md](./LICENSE.md). Contact for commercial license: <sales@litehelpers.net>
 
@@ -26,7 +26,7 @@ Copy the following files and use them in the HTML `script` tag:
 
 Native SQLite component with API based on HTML5/[Web SQL (DRAFT) API](http://www.w3.org/TR/webdatabase/) for the following platforms:
 - ~~Android~~
-- browser
+- browser (with no Cordova support)
 - ~~iOS~~
 - ~~macOS ("osx" platform)~~
 - ~~Windows 10 (UWP) DESKTOP and MOBILE (see below for major limitations)~~
