@@ -1,5 +1,9 @@
 # Changes
 
+# sqlite-evcustom-browser-memory-storage-ext-free 0.0.2-dev
+
+TBD
+
 # sqlite-evcustom-browser-memory-storage-ext-free 0.0.1-dev
 
 - New version for browser platform, with use of Cordova __removed__, with SQLite 3.26.0 update from the following branch: <https://github.com/brodybits/sql.js/tree/sqlite-3.26.0-build>
