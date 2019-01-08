@@ -2,6 +2,8 @@
 
 # sqlite-evcustom-browser-memory-storage-ext-free 0.0.3-dev
 
+- sql-memory-growth.js with FTS5, R-Tree, and JSON1 enabled from the following custom sql.js branch: <https://github.com/brodybits/sql.js/tree/sqlite-3.26.0-json1>
+
 # sqlite-evcustom-browser-memory-storage-ext-free 0.0.2-dev
 
 # cordova-sqlite-evplus-ext-free 0.3.7

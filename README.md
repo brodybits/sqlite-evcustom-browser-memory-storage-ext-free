@@ -1,6 +1,6 @@
 # SQLite evcustom browser memory storage - emulation of Cordova/PhoneGap sqlite storage plugin on browser - custom enterprise version with evplus updates extra features
 
-using sql-memory-growth.js
+using sql-memory-growth.js from the following custom sql.js branch: <https://github.com/brodybits/sql.js/tree/sqlite-3.26.0-json1>
 
 with Cordova framework not supported, not needed
 
@@ -236,10 +236,10 @@ See the [Sample section](#sample) for a sample with a more detailed explanation 
   - `SQLITE_TEMP_STORE=2` (except for SQL.js on browser platform)
   - `SQLITE_ENABLE_FTS3`
   - `SQLITE_ENABLE_FTS3_PARENTHESIS`
-  - `SQLITE_ENABLE_FTS4` (except for SQL.js on browser platform)
-  - `SQLITE_ENABLE_FTS5` _(except for SQL.js on browser platform)_
-  - `SQLITE_ENABLE_RTREE` _(except for SQL.js on browser platform)_
-  - `SQLITE_ENABLE_JSON1` _(except for SQL.js on browser platform)_
+  - `SQLITE_ENABLE_FTS4`
+  - `SQLITE_ENABLE_FTS5`
+  - `SQLITE_ENABLE_RTREE`
+  - `SQLITE_ENABLE_JSON1`
   - `SQLITE_DEFAULT_PAGE_SIZE=4096` and `SQLITE_DEFAULT_CACHE_SIZE=-2000` - new stable page/cache sizes from 3.12.0 ref: <http://sqlite.org/pgszchng2016.html>; <http://sqlite.org/releaselog/3_12_0.html> _(not explicitly defined for SQL.js on browser platform)_
   - `SQLITE_OS_WINRT` (Windows only)
   - `NDEBUG` on Windows (Release build only)
