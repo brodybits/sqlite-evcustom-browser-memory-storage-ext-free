@@ -181,7 +181,7 @@ var mytests = function() {
 
         it(suiteName + 'Basic JSON1 json test', function(done) {
           if (isWebSql) pending('SKIP for Web SQL (not implemented)');
-          if (!isWebSql && isBrowser) pending('NOT IMPLEMENTED on plugin for browser platform'); // XXX FUTURE TODO
+          // if (!isWebSql && isBrowser) pending('NOT IMPLEMENTED on plugin for browser platform'); // XXX FUTURE TODO
           if (!isWebSql && !isWindows && isAndroid && isImpl2) pending('TBD SKIP for androidDatabaseImplementation: 2'); // XXX TBD
 
           var db = openDatabase('basic-json1-json-test.db', '1.0', 'Test', DEFAULT_SIZE);
@@ -211,7 +211,7 @@ var mytests = function() {
 
         it(suiteName + 'JSON1 json_object test', function(done) {
           if (isWebSql) pending('SKIP for Web SQL (not implemented)');
-          if (!isWebSql && isBrowser) pending('NOT IMPLEMENTED on plugin for browser platform'); // XXX FUTURE TODO
+          // if (!isWebSql && isBrowser) pending('NOT IMPLEMENTED on plugin for browser platform'); // XXX FUTURE TODO
           if (!isWebSql && !isWindows && isAndroid && isImpl2) pending('TBD SKIP for androidDatabaseImplementation: 2'); // XXX TBD
 
           var db = openDatabase('json1-json-object-test.db', '1.0', 'Test', DEFAULT_SIZE);
@@ -242,7 +242,7 @@ var mytests = function() {
 
         it(suiteName + 'create virtual table using FTS5', function(done) {
           if (isWebSql) pending('SKIP for Web SQL (not implemented)');
-          if (!isWebSql && isBrowser) pending('NOT IMPLEMENTED on plugin for browser platform'); // XXX FUTURE TODO
+          // if (!isWebSql && isBrowser) pending('NOT IMPLEMENTED on plugin for browser platform'); // XXX FUTURE TODO
           if (!isWebSql && !isWindows && isAndroid && isImpl2) pending('TBD SKIP for androidDatabaseImplementation: 2'); // XXX TBD
 
           var db = openDatabase('virtual-table-using-fts5.db', '1.0', 'Test', DEFAULT_SIZE);
@@ -287,7 +287,7 @@ var mytests = function() {
         it(suiteName + 'create virtual table using R-Tree', function(done) {
           if (isWebSql) pending('SKIP for Web SQL');
           if (isAndroid && isImpl2) pending('NOT IMPLEMENTED for all versions of android.database'); // NOT IMPLEMENTED for all versions of Android database (failed in Circle CI)
-          if (!isWebSql && isBrowser) pending('NOT IMPLEMENTED on plugin for browser platform'); // FUTURE TODO
+          // if (!isWebSql && isBrowser) pending('NOT IMPLEMENTED on plugin for browser platform'); // FUTURE TODO
 
           var db = openDatabase('virtual-table-using-r-tree.db', '1.0', 'Test', DEFAULT_SIZE);
 
