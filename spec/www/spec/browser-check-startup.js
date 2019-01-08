@@ -16,6 +16,7 @@ var hasMobileWKWebView = isAppleMobileOS && !!window.webkit && !!window.webkit.m
 window.hasBrowser = true;
 
 // XXX TBD ???:
+// window.hasWebKitWebSQL = isAndroid || (isAppleMobileOS && !hasMobileWKWebView) || (isWebKitBrowser && !isEdgeBrowser);
 window.hasWebKitWebSQL = (window.cordova) ?
     isAndroid || (isAppleMobileOS && !isWKWebView) || (isWebKitBrowser && !isEdgeBrowser) : false
 

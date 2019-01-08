@@ -2,7 +2,27 @@
 
 # sqlite-evcustom-browser-memory-storage-ext-free 0.0.2-dev
 
-TBD
+# cordova-sqlite-evplus-ext-free 0.3.7
+
+## cordova-sqlite-evcore-extbuild-free 0.9.10
+
+_Not enabled in this project:_
+
+- Include SQLite 3.26.0 update from cordova-sqlite-evcore-free-dependencies 0.8.7
+
+#### cordova-sqlite-storage 2.5.1
+
+_Not enabled in this project:_
+
+- fix internal plugin cleanup error log on Android
+
+#### cordova-sqlite-storage 2.5.0
+
+- androidDatabaseProvider: 'system' setting, to replace androidDatabaseImplementation setting which is now deprecated
+
+### cordova-sqlite-evcore-common-free 0.0.3
+
+- Internal error message fix for evcore on Android
 
 # sqlite-evcustom-browser-memory-storage-ext-free 0.0.1-dev
 
@@ -113,7 +133,7 @@ TBD
 
 ## cordova-sqlite-evcore-extbuild-free 0.9.2
 
-### cordova-sqlite-storage 2.2.0
+#### cordova-sqlite-storage 2.2.0
 
 - Fix SQLiteAndroidDatabase implementation for Turkish and other foreign locales
 

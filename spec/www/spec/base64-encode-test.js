@@ -10,6 +10,8 @@ var isAndroid = !isWindows && /Android/.test(navigator.userAgent);
 // XXX
 var isFirefox = /Firefox/.test(navigator.userAgent);
 var isWebKitBrowser = !isWindows && !isAndroid && /Safari/.test(navigator.userAgent);
+// XXX TBD QUICK FIX ???:
+// var isBrowser = (/Firefox/.test(navigator.userAgent)) || (!isWindows && !isAndroid && /Safari/.test(navigator.userAgent));
 var isBrowser = isWebKitBrowser || isFirefox;
 
 // NOTE: In the common storage-master branch there is no difference between the
@@ -26,6 +28,8 @@ var scenarioCount = (!!window.hasWebKitBrowser) ? (isAndroid ? 3 : 2) : 1;
 var mytests = function() {
 
   for (var i=0; i<scenarioCount; ++i) {
+    // XXX QUICK FIX:
+    if (isBrowser) continue;
 
     describe(scenarioList[i] + ': BASE64 encoding test(s)', function() {
       var scenarioName = scenarioList[i];
