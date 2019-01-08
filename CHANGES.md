@@ -1,5 +1,7 @@
 # Changes
 
+# sqlite-evcustom-browser-memory-storage-ext-free 0.0.3-dev
+
 # sqlite-evcustom-browser-memory-storage-ext-free 0.0.2-dev
 
 # cordova-sqlite-evplus-ext-free 0.3.7
