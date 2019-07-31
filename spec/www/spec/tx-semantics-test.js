@@ -18,13 +18,13 @@ var DEFAULT_SIZE = isSafariBrowser ? 2000000 : 5000000;
 // FUTURE TBD: 50MB should be OK on Chrome and some other test browsers.
 
 // NOTE: While in certain version branches there is no difference between
-// the default Android implementation and implementation #2,
+// the default Android implementation and system database provider,
 // this test script will also apply the androidLockWorkaround: 1 option
-// in case of implementation #2.
+// in case of androidDatabaseProvider: 'system'.
 var scenarioList = [
   isAndroid ? 'Plugin-implementation-default' : 'Plugin',
   'HTML5',
-  'Plugin-implementation-2'
+  'Plugin-system-database-provider'
 ];
 
 var scenarioCount = (!!window.hasWebKitWebSQL) ? (isAndroid ? 3 : 2) : 1;
@@ -40,17 +40,17 @@ var mytests = function() {
       var scenarioName = scenarioList[i];
       var suiteName = scenarioName + ': ';
       var isWebSql = (i === 1);
-      var isImpl2 = (i === 2);
+      var isSystemDatabaseProvider = (i === 2);
 
       // NOTE: MUST be defined in function scope, NOT outer scope:
       var openDatabase = function(name, ignored1, ignored2, ignored3) {
-        if (isImpl2) {
+        if (isSystemDatabaseProvider) {
           return window.sqlitePlugin.openDatabase({
             // prevent reuse of database from default db implementation:
-            name: 'i2-'+name,
+            name: 'system-'+name,
             // explicit database location:
             location: 'default',
-            androidDatabaseImplementation: 2,
+            androidDatabaseProvider: 'system',
             androidLockWorkaround: 1
           });
         }
@@ -257,7 +257,7 @@ var mytests = function() {
                     try {
                       // defined on plugin (except for Android with androidDatabaseImplementation: 2);
                       // throws on (WebKit) Web SQL:
-                      if (!isWebSql && isAndroid && isImpl2)
+                      if (!isWebSql && isAndroid && isSystemDatabaseProvider)
                         expect(rs4.insertId).not.toBeDefined();
                       else
                         expect(rs4.insertId).toBeDefined();
@@ -265,11 +265,11 @@ var mytests = function() {
                       // NOT EXPECTED to get here on (WebKit) Web SQL:
                       if (isWebSql) expect('(WebKit) Web SQL behavior changed').toBe('--');
 
-                      if (!(isAndroid && isImpl2))
+                      if (!(isAndroid && isSystemDatabaseProvider))
                         expect(rs4.insertId).toBe(1);
                     } catch(ex) {
                       // SHOULD NOT CATCH EXCEPTION on plugin:
-                      if (!isWebSql) expect('EXCEPTION NOT EXPECTED on plugin with message: ' + e.message).toBe('--');
+                      if (!isWebSql) expect('EXCEPTION NOT EXPECTED on plugin with message: ' + ex.message).toBe('--');
                       expect(ex).toBeDefined();
                       expect(ex.message).toBeDefined();
                       // FUTURE TBD check message
@@ -285,7 +285,7 @@ var mytests = function() {
                       try {
                         // defined on plugin (except for Android with androidDatabaseImplementation: 2);
                         // throws on (WebKit) Web SQL:
-                        if (!isWebSql && isAndroid && isImpl2)
+                        if (!isWebSql && isAndroid && isSystemDatabaseProvider)
                           expect(rs5.insertId).not.toBeDefined();
                         else
                           expect(rs5.insertId).toBeDefined();
@@ -293,11 +293,11 @@ var mytests = function() {
                         // EXPECTED to get here on plugin only:
                         if (isWebSql) expect('(WebKit) Web SQL behavior changed').toBe('--');
 
-                        if (!(isAndroid && isImpl2))
+                        if (!(isAndroid && isSystemDatabaseProvider))
                           expect(rs5.insertId).toBe(1);
-                      } catch(e) {
+                      } catch(ex) {
                         // SHOULD NOT CATCH EXCEPTION on plugin:
-                        if (!isWebSql) expect('EXCEPTION NOT EXPECTED on plugin').toBe('--');
+                        if (!isWebSql) expect('EXCEPTION NOT EXPECTED on plugin with message: ' + ex.message).toBe('--');
                         // XXX TODO CHECK message, etc.
                       }
 
