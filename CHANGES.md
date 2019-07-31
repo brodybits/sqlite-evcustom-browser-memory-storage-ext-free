@@ -1,10 +1,24 @@
 # Changes
 
+<<<<<<< HEAD
 # sqlite-evcustom-browser-memory-storage-ext-free 0.0.3-dev
 
 - sql-memory-growth.js with FTS5, R-Tree, and JSON1 enabled from the following custom sql.js branch: <https://github.com/brodybits/sql.js/tree/sqlite-3.26.0-json1>
 
 # sqlite-evcustom-browser-memory-storage-ext-free 0.0.2-dev
+=======
+# cordova-sqlite-evplus-ext-free 0.4.0-pre01
+
+- EU character support in UPPER & LOWER functions using functions from: https://github.com/brodybits/sqlite3-eu - with Android implementation built from: https://github.com/litehelpers/Android-sqlite-evcore-native-driver-free/tree/eu-support-wipsave101 which includes fix for emojis and other 4-byte UTF-8 characters
+
+### cordova-sqlite-storage-commoncore 1.0.0
+
+- additional EU string manipulation test cases
+
+# cordova-sqlite-evplus-ext-free 0.3.8
+
+- SQLite 3.28.0 update from cordova-sqlite-evcore-free-dependencies 0.9.1
+>>>>>>> 19623879668bb5446dd8f16b74ad6ff095ad66ed
 
 # cordova-sqlite-evplus-ext-free 0.3.7
 
