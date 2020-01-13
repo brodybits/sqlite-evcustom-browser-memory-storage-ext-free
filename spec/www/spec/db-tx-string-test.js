@@ -1099,7 +1099,7 @@ var mytests = function() {
               // - mac OS ("osx")
               // - Windows
               if ((isWebSql && isChromeBrowser) ||
-                  (!isWebSql && !isBrowser && !(isAndroid && isImpl2)) || // XXX
+                  (!isWebSql && !(isAndroid && isImpl2)) || // XXX (...)
                   (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(resultRow1.myresult).toBe('AÉ');
               else
@@ -1123,7 +1123,7 @@ var mytests = function() {
                 // - mac OS ("osx")
                 // - Windows
                 if ((isWebSql && isChromeBrowser) ||
-                    (!isWebSql && !isBrowser && !(isAndroid && isImpl2)) || // XXX
+                    (!isWebSql && !(isAndroid && isImpl2)) || // XXX (...)
                     (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                   expect(resultRow2.myresult).toBe('BÉ');
                 else
@@ -1167,7 +1167,7 @@ var mytests = function() {
               // - mac OS ("osx")
               // - Windows
               if ((isWebSql && isChromeBrowser) ||
-                  (!isWebSql && !isBrowser && !(isAndroid && isImpl2)) || // XXX
+                  (!isWebSql && !(isAndroid && isImpl2)) || // XXX (...)
                   (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(resultRow1.myresult).toBe('aé');
               else
@@ -1191,7 +1191,7 @@ var mytests = function() {
                 // - mac OS ("osx")
                 // - Windows
                 if ((isWebSql && isChromeBrowser) ||
-                    (!isWebSql && !isBrowser && !(isAndroid && isImpl2)) || // XXX
+                    (!isWebSql && !(isAndroid && isImpl2)) || // XXX (...)
                     (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                   expect(resultRow2.myresult).toBe('bé');
                 else
@@ -1237,8 +1237,7 @@ var mytests = function() {
               if ((isWebSql && isChromeBrowser) ||
                   (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(resultRow1.myresult).toBe('STRASSE');
-              // XXX
-              else if (!isWebSql && !isBrowser)
+              else if (!isWebSql) // (...)
                 expect(resultRow1.myresult).toBe('STRAẞE');
               else
                 expect(resultRow1.myresult).toBe('STRAßE');
@@ -1263,8 +1262,7 @@ var mytests = function() {
                 if ((isWebSql && isChromeBrowser) ||
                     (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                   expect(resultRow2.myresult).toBe('STRASSE');
-                // XXX
-                else if (!isWebSql && !isBrowser)
+                else if (!isWebSql) // (...)
                   expect(resultRow2.myresult).toBe('STRAẞE');
                 else
                   expect(resultRow2.myresult).toBe('STRAßE');
@@ -1479,7 +1477,7 @@ var mytests = function() {
               // - mac OS ("osx")
               // - Windows
               if ((isWebSql && isChromeBrowser) ||
-                  (!isWebSql && !isBrowser && !(isAndroid && isImpl2)) || // XXX
+                  (!isWebSql && !(isAndroid && isImpl2)) || // XXX (...)
                   (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(resultRow1.myresult).toBe('straße');
               else
@@ -1503,7 +1501,7 @@ var mytests = function() {
                 // - mac OS ("osx")
                 // - Windows
                 if ((isWebSql && isChromeBrowser) ||
-                    (!isWebSql && !isBrowser && !(isAndroid && isImpl2)) || // XXX
+                    (!isWebSql && !(isAndroid && isImpl2)) || // XXX (...)
                     (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                   expect(resultRow2.myresult).toBe('straße');
                 else
@@ -1647,7 +1645,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + "SELECT LOWER(X'41EDA080EDBCB1') - result column value is '\\uED41\u80A0\\uBCED' ('\uED41\u80A0\uBCED') on Android 4.1-4.3 (WebKit) Web SQL & Windows (UTF-16le), XXX 'a\uD800\uDF31' (non-standard encoding) on browser ... XXX TBD on Android with default Android NDK provider on androidDatabaseProvider: 'system' on Android 4.x, XXX 'a\\uFFFD\\uFFFD' ('a\uFFFD\uFFFD') on Android with androidDatabaseProvider: 'system' on Android post-4.x, default Android evcore (FIXED), and (WebKit) Web SQL (Android/iOS/Browser); XXX KNOWN CRASH on plugin on iOS/macOS & ... in this plugin version (...)", function(done) {
+        it(suiteName + "SELECT LOWER(X'41EDA080EDBCB1') - result column value is '\\uED41\u80A0\\uBCED' ('\uED41\u80A0\uBCED') on Android 4.1-4.3 (WebKit) Web SQL & Windows (UTF-16le), XXX TBD on Android with default Android NDK provider on androidDatabaseProvider: 'system' on Android 4.x, XXX 'a\\uFFFD\\uFFFD' ('a\uFFFD\uFFFD') on browser, Android with androidDatabaseProvider: 'system' on Android post-4.x, default Android evcore (FIXED), and (WebKit) Web SQL (Android/iOS/Browser); XXX KNOWN CRASH on plugin on iOS/macOS & ... in this plugin version (...)", function(done) {
           // ref:
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
@@ -1668,9 +1666,6 @@ var mytests = function() {
                 expect(rs.rows.item(0).lowertext).toBe('\uED41\u80A0\uBCED');
               else if (isMac || (!isWebSql && isAppleMobileOS))
                 expect(rs.rows.item(0).lowertext).not.toBeDefined();
-              // XXX
-              else if (!isWebSql && isBrowser)
-                expect(rs.rows.item(0).lowertext).toBe('a\uD800\uDF31'); // 'a𐌱' (non-standard encoding)
               else
                 expect(rs.rows.item(0).lowertext).toBe('a\uFFFD\uFFFD'); // 'a��'
 
@@ -1839,7 +1834,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + "SELECT LOWER(X'41EDA0BDEDB88321') - result column value is '\\uED41\\uBDA0\\uB8ED\\u2183' ('\uED41\uBDA0\uB8ED\u2183') on Android 4.1-4.3 (WebKit) Web SQL (UTF-16le), XXX 'a\\uD83D\\uDE03!' ('a\uD83D\uDE03!') on browser & Android with androidDatabaseProvider: 'system' on Android 4.x, XXX '\\uED41\\uBDA0\\uB8ED\\u2183' ('\uED41\uBDA0\uB8ED\u2183') on (WebKit) Web SQL, Android with default evcore NDK driver (with ENCODING ISSUE NOW RESOLVED on all Android versions) and androidDatabaseProvider: 'system' on Android post-4.x (XXX TBD KNOWN CRASH on plugin on iOS/macOS/... in this plugin version ...)", function(done) {
+        it(suiteName + "SELECT LOWER(X'41EDA0BDEDB88321') - result column value is '\\uED41\\uBDA0\\uB8ED\\u2183' ('\uED41\uBDA0\uB8ED\u2183') on Android 4.1-4.3 (WebKit) Web SQL (UTF-16le), XXX '\\uED41\\uBDA0\\uB8ED\\u2183' ('\uED41\uBDA0\uB8ED\u2183') on browser & (WebKit) Web SQL, Android with default evcore NDK driver (with ENCODING ISSUE NOW RESOLVED on all Android versions) and androidDatabaseProvider: 'system' on Android post-4.x (XXX TBD KNOWN CRASH on plugin on iOS/macOS/... in this plugin version ...)", function(done) {
           // ref:
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
@@ -1868,11 +1863,8 @@ var mytests = function() {
               // FUTURE TBD add a new case here when adding a new platform:
               if (isWindows || (isWebSql && isAndroid && /Android 4.[1-3]/.test(navigator.userAgent)))
                 expect(rs.rows.item(0).lowertext).toBe('\uED41\uBDA0\uB8ED\u2183'); // (UTF-16le)
-              else if (isWebSql || isAndroid)
+              else if (isWebSql || isAndroid || isBrowser)
                 expect(rs.rows.item(0).lowertext).toBe('a\uFFFD\uFFFD!'); // 'a��!'
-              // XXX
-              else if (!isWebSql && isBrowser)
-                expect(rs.rows.item(0).lowertext).toBe('a\uD83D\uDE03!');
               else if (!isWebSql && (isAppleMobileOS || isMac))
                 expect(rs.rows.item(0).lowertext).not.toBeDefined();
               else
@@ -2100,7 +2092,7 @@ var mytests = function() {
               // - mac OS ("osx")
               // - Windows
               if ((isWebSql && isChromeBrowser) ||
-                  (!isWebSql && !isBrowser && !(isAndroid && isImpl2)) || // XXX
+                  (!isWebSql && !(isAndroid && isImpl2)) || // XXX (...)
                   (isAndroid && ((isWebSql && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(rs.rows.item(0).upper_result).toBe('TEST ¢ É €');
               else
@@ -2138,7 +2130,7 @@ var mytests = function() {
               // - mac OS ("osx")
               // - Windows
               if ((isWebSql && isChromeBrowser) ||
-                  (!isWebSql && !isBrowser && !(isAndroid && isImpl2)) || // XXX
+                  (!isWebSql && !(isAndroid && isImpl2)) || // XXX (...)
                   (isAndroid && ((isWebSql && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(rs.rows.item(0).upper_result).toBe('TEST ¢ É €');
               else

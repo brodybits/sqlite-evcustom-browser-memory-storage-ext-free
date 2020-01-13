@@ -1,6 +1,6 @@
 # SQLite evcustom browser memory storage - emulation of Cordova/PhoneGap sqlite storage plugin on browser - custom enterprise version with evplus updates extra features
 
-using `sql-asm-memory-growth.js` built from the following custom sql.js branch: <https://github.com/brodybits/sql.js/tree/brodybits-custom-build>
+using `sql-asm-memory-growth.js` built from the following custom sql.js branch: <https://github.com/brodybits/sql.js/tree/eu-ext-custom-build>
 
 with Cordova framework not supported, not needed
 
@@ -237,7 +237,7 @@ See the [Sample section](#sample) for a sample with a more detailed explanation 
   - optional: Android system database implementation, using the `androidDatabaseProvider: 'system'` setting in `sqlitePlugin.openDatabase()` call as described in the [Android database provider](android-database-provider) section below.
 - The following feature is available in [litehelpers / cordova-sqlite-ext](https://github.com/litehelpers/cordova-sqlite-ext) (with permissive license terms, missing Android-sqlite-evcore-native-driver performance enhancements), MISSING in this ~~plugin~~ version:
   - Pre-populated database (_Android/iOS/macOS/Windows_)
-- The new browser platform implementation using `sql-asm-memory-growth.js` from <https://github.com/brodybits/sql.js/tree/brodybits-custom-build> has the following major limitations:
+- The new browser platform implementation using `sql-asm-memory-growth.js` from <https://github.com/brodybits/sql.js/tree/eu-ext-custom-build> has the following major limitations:
   - missing actual persistence
   - missing certain feature(s) such as R-Tree
   - INCORRECT error code (0)
@@ -293,7 +293,7 @@ and window functions
 - Fixed iOS/macOS platform version to use [PSPDFThreadSafeMutableDictionary.m](https://gist.github.com/steipete/5928916) to avoid threading issue ref: [litehelpers/Cordova-sqlite-storage#716](https://github.com/litehelpers/Cordova-sqlite-storage/issues/716)
 - This plugin version references Windows platform toolset v141 to support Visual Studio 2017 ref: [litehelpers/Cordova-sqlite-storage#580](https://github.com/litehelpers/Cordova-sqlite-storage/issues/580). (Visual Studio 2015 is now supported by [litehelpers / cordova-sqlite-legacy](https://github.com/litehelpers/cordova-sqlite-legacy) (permissive license terms, no performance enhancements for Android) and [brodybits / cordova-sqlite-evcore-legacy-ext-common-free](https://github.com/brodybits/cordova-sqlite-evcore-legacy-ext-common-free) (GPL or commercial license terms, with performance enhancements for Android). UNTESTED workaround for Visual Studio 2015: it *may* be possible to support this plugin version on Visual Studio 2015 Update 3 by installing platform toolset v141.)
 - ~~_The_ [brodybits / cordova-sqlite-test-app](https://github.com/brodybits/cordova-sqlite-test-app) project is a CC0 (public domain) starting point (NOTE that this plugin must be added) and may also be used to reproduce issues with this plugin.~~
-- _Not enabled in this version:_ This _version_ includes the following extra features: BASE64 (~~all platforms~~ Android/iOS/macOS/Windows), REGEXP (Android/iOS/macOS)
+- _Not enabled in this version:_ This _version_ includes the following extra features: BASE64 (__all platforms__), REGEXP (Android/iOS/macOS)
 - The Lawnchair adapter is now moved to [litehelpers / cordova-sqlite-lawnchair-adapter](https://github.com/litehelpers/cordova-sqlite-lawnchair-adapter).
 - This plugin version now supports SELECT BLOB data in Base64 format on _Android/iOS/macOS/Windows_ in addition to REGEXP (Android/iOS/macOS) ~~and pre-populated database (all platforms - FUTURE TODO)~~.
 - [brodybits / sql-promise-helper](https://github.com/brodybits/sql-promise-helper) provides a Promise-based API wrapper.
