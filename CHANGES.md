@@ -1,6 +1,14 @@
 # Changes
 
-# sqlite-evcustom-browser-memory-storage-ext-free 0.2.0-dev
+# sqlite-evcustom-browser-memory-storage-ext-free 0.2.0-pre01
+
+with custom buld of sql-asm-memory-growth-debug.js from SQLite 3.30.1
+which is copied from sql-asm-debug.js as built from the following
+custom build branch:
+
+- https://github.com/brodybits/sql.js/commits/brodybits-custom-build
+
+and the following build update:
 
 - quick workarounds for new sql-asm-memory-growth.js build
   - internal SQL object
