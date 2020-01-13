@@ -1,6 +1,6 @@
 # SQLite evcustom browser memory storage - emulation of Cordova/PhoneGap sqlite storage plugin on browser - custom enterprise version with evplus updates extra features
 
-using sql-memory-growth.js from the following custom sql.js branch: <https://github.com/brodybits/sql.js/tree/sqlite-3.26.0-json1>
+using `sql-memory-growth.js` from the following custom sql.js branch: <https://github.com/brodybits/sql.js/tree/brodybits-custom-build>
 
 with Cordova framework not supported, not needed
 
