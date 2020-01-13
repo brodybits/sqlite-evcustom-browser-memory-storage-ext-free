@@ -2,6 +2,11 @@
 
 # sqlite-evcustom-browser-memory-storage-ext-free 0.2.0-dev
 
+- quick updates for new sql-asm-memory-growth.js build
+  - internal SQL object
+  - renamed sql-asm-memory-growth.js src file in the package build script
+  - no extra mod wrapper around sql-asm-memory-growth.js
+
 # sqlite-evcustom-browser-memory-storage-ext-free 0.1.0
 
 - fixed GPL v3 license statement in multiple places
