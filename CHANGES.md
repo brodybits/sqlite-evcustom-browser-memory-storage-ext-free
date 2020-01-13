@@ -1,6 +1,6 @@
 # Changes
 
-# sqlite-evcustom-browser-memory-storage-ext-free 0.2.0-pre01
+# sqlite-evcustom-browser-memory-storage-ext-free 0.2.0-rcdev
 
 - remove some log output from the JavaScript (comment out from the CoffeeScript)
 - quick updates for new sql-asm-memory-growth.js build, now built with BASE64 and sqlite3-eu enhancements
