@@ -1084,7 +1084,7 @@ var mytests = function() {
               else
                 expect(rs.rows.length).toBe(1);
 
-              if (isWebSql || isWindows || isMac)
+              if (isBrowser || isWebSql || isWindows || isMac)
                 expect(rs.rows.item(0).myresult).toBe(Infinity);
 
               // Close (plugin only) & finish:
@@ -1119,7 +1119,7 @@ var mytests = function() {
               else
                 expect(rs.rows.length).toBe(1);
 
-              if (isWebSql || isWindows || isMac)
+              if (isBrowser || isWebSql || isWindows || isMac)
                 expect(rs.rows.item(0).myresult).toBe(-Infinity);
 
               // Close (plugin only) & finish:
@@ -1794,7 +1794,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + "SELECT X'40414243' [ERROR REPRODUCED on androidDatabaseProvider: 'system' & Windows; follows default sqlite encoding: UTF-16le on Android 4.1-4.4 (WebKit) Web SQL, UTF-8 otherwise]", function(done) {
+        it(suiteName + "SELECT X'40414243' [TBD NONSENSE value IGNORED on browser; ERROR REPRODUCED on androidDatabaseProvider: 'system' & Windows; follows default sqlite encoding: UTF-16le on Android 4.1-4.4 (WebKit) Web SQL, UTF-8 otherwise]", function(done) {
           var db = openDatabase('INLINE-BLOB-SELECT-40414243-test.db');
 
           db.transaction(function(tx) {
@@ -1806,6 +1806,8 @@ var mytests = function() {
               expect(rs.rows.length).toBe(1);
               if (isWebSql && isAndroid && /Android 4.[1-3]/.test(navigator.userAgent))
                 expect(rs.rows.item(0).myresult).toBe('䅀䍂');
+              else if (isBrowser)
+                expect(rs.rows.item(0).myresult).toBeDefined();
               else
                 expect(rs.rows.item(0).myresult).toBe('@ABC');
 

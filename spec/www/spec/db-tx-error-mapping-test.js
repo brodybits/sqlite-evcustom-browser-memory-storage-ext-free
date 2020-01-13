@@ -210,8 +210,8 @@ var mytests = function() {
                 expect(error.message).toMatch(/could not prepare statement.*1 incomplete input/);
               else if (isWebSql)
                 expect(error.message).toMatch(/near \"VALUES\": syntax error/);
-              else if (isBrowser)
-                expect(error.message).toMatch(/near \" \": syntax error/);
+              // else if (isBrowser)
+              //   expect(error.message).toMatch(/near \" \": syntax error/);
               else if (isWindows)
                 expect(error.message).toMatch(/Error preparing an SQLite statement/);
               else if (isAndroid && !isImpl2)
@@ -246,8 +246,8 @@ var mytests = function() {
               expect(error.message).toMatch(/error callback did not return false.*Error preparing an SQLite statement/);
             else if (isAndroid && !isImpl2)
               expect(error.message).toMatch(/error callback did not return false.*syntax error or other error code: 1 message: incomplete input/);
-            else if (isBrowser || (isAndroid && isImpl2)) // XXX
-              expect(error.message).toMatch(/error callback did not return false.*syntax error/); // XXX
+            // else if (isBrowser || (isAndroid && isImpl2)) // XXX
+            //   expect(error.message).toMatch(/error callback did not return false.*syntax error/); // XXX
             else
               expect(error.message).toMatch(/error callback did not return false.*incomplete input/);
 
