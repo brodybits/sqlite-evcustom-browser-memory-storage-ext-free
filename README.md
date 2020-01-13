@@ -22,6 +22,12 @@ Copy `index.js` and use it in the HTML `script` tag.
 
 Require this package in an HTML5 application that is built using a tool such as Webpack.
 
+## Known quirks on browser
+
+- attempt to SELECT a blob value, such as `SELECT X'40414243'`, gives a nonsense result value
+- known issue with attempt to store and select Infinity value from a column with no/NUMERIC/REAL/INTEGER/TEXT type affinity
+- known truncation issue in case of string with U+0000 ("\0") character
+
 # Original documentation from cordova-plugin-sqlite-evplus-ext-common-free
 
 **NOTICE:** This version branch only works on browser platform.
