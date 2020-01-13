@@ -2,6 +2,7 @@
 
 # sqlite-evcustom-browser-memory-storage-ext-free 0.2.0-rcdev
 
+- update index-footer.js to avoid "module is not defined" error
 - remove some log output from the JavaScript (comment out from the CoffeeScript)
 - quick updates for new sql-asm-memory-growth.js build, now built with BASE64 and sqlite3-eu enhancements
   - internal SQL object
