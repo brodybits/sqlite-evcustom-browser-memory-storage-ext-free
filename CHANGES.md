@@ -1,5 +1,7 @@
 # Changes
 
+# sqlite-evcustom-browser-memory-storage-ext-free 0.2.0-dev
+
 # sqlite-evcustom-browser-memory-storage-ext-free 0.1.0
 
 - fixed GPL v3 license statement in multiple places
