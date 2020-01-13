@@ -3,7 +3,9 @@
 *.swp
 *~
 node_modules
+package-lock.json
 spec/myplugin
 spec/plugins
 spec/platforms
 spec/www/index.js
+yarn.lock

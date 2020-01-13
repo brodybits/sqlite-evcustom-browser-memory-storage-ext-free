@@ -63,8 +63,7 @@
         <header-file src="src/ios/SQLitePlugin.h" />
         <source-file src="src/ios/SQLitePlugin.m" />
 
-        <header-file src="src/ios/PSPDFThreadSafeMutableDictionary.h" />
-        <source-file src="src/ios/PSPDFThreadSafeMutableDictionary.m"
+        <source-file src="src/ios/CustomPSPDFThreadSafeMutableDictionary.m"
                 compiler-flags="-w" />
 
         <header-file src="src/deps/common/sqlite3-regexp-cached/sqlite3_regexp.h" />
@@ -75,6 +74,9 @@
 
         <header-file src="src/deps/common/libb64-encode/cencode.h" />
         <source-file src="src/deps/common/libb64-encode/cencode.c" />
+
+        <header-file src="src/deps/common/sqlite3-eu/sqlite3_eu.h" />
+        <source-file src="src/deps/common/sqlite3-eu/sqlite3_eu.c" />
 
         <header-file src="src/deps/common/sqlite3.h" />
         <source-file src="src/deps/common/sqlite3.c"
@@ -95,8 +97,7 @@
 
         <!-- FUTURE TBD: more common directory name for Apple macOS/iOS versions -->
 
-        <header-file src="src/ios/PSPDFThreadSafeMutableDictionary.h" />
-        <source-file src="src/ios/PSPDFThreadSafeMutableDictionary.m"
+        <source-file src="src/ios/CustomPSPDFThreadSafeMutableDictionary.m"
                 compiler-flags="-w" />
 
         <header-file src="src/deps/common/sqlite3-regexp-cached/sqlite3_regexp.h" />
@@ -107,6 +108,9 @@
 
         <header-file src="src/deps/common/libb64-encode/cencode.h" />
         <source-file src="src/deps/common/libb64-encode/cencode.c" />
+
+        <header-file src="src/deps/common/sqlite3-eu/sqlite3_eu.h" />
+        <source-file src="src/deps/common/sqlite3-eu/sqlite3_eu.c" />
 
         <header-file src="src/deps/common/sqlite3.h" />
         <source-file src="src/deps/common/sqlite3.c"
@@ -120,16 +124,12 @@
         </js-module>
 
         <!-- SQLite3 JS module from SQLite3-WinRT/SQLite3JS: -->
-        <js-module src="src/windows/SQLite3-Win-RT/SQLite3JS/js/SQLite3.js" name="SQLite3">
+        <js-module src="src/windows/SQLite3-WinRT-sync/SQLite3JS/js/SQLite3.js" name="SQLite3">
             <runs />
         </js-module>
 
         <!-- Thanks to AllJoyn-Cordova / cordova-plugin-alljoyn for guidance: -->
-        <framework src="src/windows/SQLite3-Win-RT/SQLite3/SQLite3.UWP/SQLite3.UWP.vcxproj" custom="true" type="projectReference" versions="10.*" />
-        <!-- Windows 8.1 / Windows Phone 8.1 NOT supported by this plugin version:
-        <framework src="src/windows/SQLite3-Win-RT/SQLite3/SQLite3.Windows/SQLite3.Windows.vcxproj" custom="true" type="projectReference" target="windows" versions="8.1" />
-        <framework src="src/windows/SQLite3-Win-RT/SQLite3/SQLite3.WindowsPhone/SQLite3.WindowsPhone.vcxproj" custom="true" type="projectReference" target="phone" versions="8.1" />
-        - -->
+        <framework src="src/windows/SQLite3-WinRT-sync/SQLite3/SQLite3.UWP.vcxproj" custom="true" type="projectReference" versions="10.*" />
     </platform>
 
 </plugin>
