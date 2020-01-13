@@ -14,11 +14,13 @@ sqlite-evcustom-browser-memory-storage-ext-free - custom enterprise version emul
 
 ## Installation
 
-Copy the following files and use them in the HTML `script` tag:
+**Alternative 1:**
 
-* `www/SQLitePlugin.js`
-* `src/browser/SQLiteProxy.js`
-* `src/deps/browser/sql-memory-growth.js`
+Copy `index.js` and use it in the HTML `script` tag.
+
+**Alternative 2:**
+
+Require this package in an HTML5 application that is built using a tool such as Webpack.
 
 # Original documentation from cordova-plugin-sqlite-evplus-ext-common-free
 
