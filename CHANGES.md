@@ -1,6 +1,6 @@
 # Changes
 
-# sqlite-evcustom-browser-memory-storage-ext-free 0.2.0-rcdev
+# sqlite-evcustom-browser-memory-storage-ext-free 0.2.0-rc01
 
 - update index-footer.js to avoid "module is not defined" error
 - remove some log output from the JavaScript (comment out from the CoffeeScript)

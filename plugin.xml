@@ -2,7 +2,7 @@
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="sqlite-evcustom-browser-memory-storage-ext-free"
-    version="0.2.0-rcdev">
+    version="0.2.0-rc01">
 
     <name>SQLite evcustom browser memory storage - emulation of Cordova/PhoneGap sqlite storage plugin on browser - custom enterprise version with premium performance improvements and extra features</name>
 
