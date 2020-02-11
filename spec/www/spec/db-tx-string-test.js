@@ -1064,6 +1064,7 @@ var mytests = function() {
               expect(resultRow1.myresult).toBeDefined();
               // SQLite3 with ICU-UNICODE for builtin android.database on Android 4.4 and greater
               if ((isWebSql && isChromeBrowser) ||
+                  (!isWebSql && isBrowser) ||
                   (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(resultRow1.myresult).toBe('AÉ');
               else
@@ -1079,6 +1080,7 @@ var mytests = function() {
                 expect(resultRow2.myresult).toBeDefined();
                 // SQLite3 with ICU-UNICODE for builtin android.database on Android 4.4 and greater
                 if ((isWebSql && isChromeBrowser) ||
+                    (!isWebSql && isBrowser) ||
                     (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                   expect(resultRow2.myresult).toBe('BÉ');
                 else
@@ -1422,8 +1424,8 @@ var mytests = function() {
               else if (isMac || (!isWebSql && isAppleMobileOS))
                 expect(rs.rows.item(0).lowertext).not.toBeDefined();
               // else if (!isWebSql && isAndroid && (!isImpl2 || (/Android 4/.test(navigator.userAgent))))
-              else if (!isWebSql && isBrowser)
-                expect(rs.rows.item(0).lowertext).toBe('a\uD800\uDF31'); // 'a𐌱' (non-standard encoding)
+              //else if (!isWebSql && isBrowser)
+              //  expect(rs.rows.item(0).lowertext).toBe('a\uD800\uDF31'); // 'a𐌱' (non-standard encoding)
               else
                 expect(rs.rows.item(0).lowertext).toBe('a\uFFFD\uFFFD'); // 'a��'
 
@@ -1621,12 +1623,15 @@ var mytests = function() {
               if (isWindows || (isWebSql && isAndroid && /Android 4.[1-3]/.test(navigator.userAgent)))
                 expect(rs.rows.item(0).lowertext).toBe('\uED41\uBDA0\uB8ED\u2183'); // (UTF-16le)
               else if (isWebSql ||
+                       (!isWebSql && isBrowser) || // XXX TBD (...)
                        (isAndroid &&
                         (isImpl2 && !(/Android 4/.test(navigator.userAgent)))))
                 expect(rs.rows.item(0).lowertext).toBe('a\uFFFD\uFFFD!'); // 'a��!'
               // else if (!isWebSql && isAndroid) // (other conditions checked above)
+              /* ** XXX TBD (...):
               else if (!isWebSql && isBrowser)
                 expect(rs.rows.item(0).lowertext).toBe('a\uD83D\uDE03!');
+              // */
               else if (!isWebSql && (isAppleMobileOS || isMac))
                 expect(rs.rows.item(0).lowertext).not.toBeDefined();
               else
@@ -1845,6 +1850,7 @@ var mytests = function() {
               expect(rs.rows).toBeDefined();
               expect(rs.rows.length).toBe(1);
               if ((isWebSql && isChromeBrowser) ||
+                  (!isWebSql && isBrowser) ||
                   (isAndroid && ((isWebSql && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(rs.rows.item(0).upper_result).toBe('TEST ¢ É €');
               else
@@ -1873,6 +1879,7 @@ var mytests = function() {
               expect(rs.rows).toBeDefined();
               expect(rs.rows.length).toBe(1);
               if ((isWebSql && isChromeBrowser) ||
+                  (!isWebSql && isBrowser) ||
                   (isAndroid && ((isWebSql && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(rs.rows.item(0).upper_result).toBe('TEST ¢ É €');
               else
