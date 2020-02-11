@@ -1,6 +1,6 @@
 # SQLite evcustom browser memory storage - emulation of Cordova/PhoneGap sqlite storage plugin on browser - custom enterprise version with evplus updates extra features
 
-using sql-memory-growth.js from the following custom sql.js branch: <https://github.com/brodybits/sql.js/tree/sqlite-3.26.0-json1>
+using `sql-asm-debug.js` built from the following custom sql.js branch: <https://github.com/brodybits/sql.js/tree/brodybits-custom-build>
 
 with Cordova framework not supported, not needed
 
@@ -258,7 +258,7 @@ See the [Sample section](#sample) for a sample with a more detailed explanation 
   - optional: Android system database implementation, using the `androidDatabaseProvider: 'system'` setting in `sqlitePlugin.openDatabase()` call as described in the [Android database provider](android-database-provider) section below.
 - The following feature is available in [litehelpers / cordova-sqlite-ext](https://github.com/litehelpers/cordova-sqlite-ext) (with permissive license terms, missing Android-sqlite-evcore-native-driver performance enhancements), MISSING in this ~~plugin~~ version:
   - Pre-populated database (_Android/iOS/macOS/Windows_)
-- The new browser platform implementation using `sql-memory-growth.js` from [kripken / sql.js](https://github.com/kripken/sql.js) has the following major limitations:
+- The new browser platform implementation using `sql-asm-debug.js` from <https://github.com/brodybits/sql.js/tree/brodybits-custom-build> has the following major limitations:
   - missing actual persistence
   - missing certain feature(s) such as R-Tree
   - INCORRECT error code (0)

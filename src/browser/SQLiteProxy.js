@@ -14,6 +14,10 @@ function echoStringValue(success, error, options) {
   success(options[0].value);
 }
 
+var SQL = null;
+
+window.initSqlJs().then(sql => { SQL = sql })
+
 function openDatabase(success, error, options) {
   var name = options[0].name;
 
