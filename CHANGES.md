@@ -2,6 +2,7 @@
 
 # sqlite-evcustom-browser-memory-storage-ext-free 0.2.0-dev
 
+- update index-footer.js to avoid "module is not defined" error
 - quick updates for new sql-asm-debug.js build
   - internal SQL object
   - renamed sql-asm-debug.js src file in the package build script
