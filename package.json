@@ -33,9 +33,15 @@
   },
   "homepage": "https://github.com/brodybits/sqlite-evcustom-browser-memory-storage-ext-free",
   "scripts": {
+    "clean-spec": "rm -rf spec/[mnp]* && git cl spec/config.xml && git status --ignored",
+    "prepare-js": "coffee -p SQLitePlugin.coffee.md > www/SQLitePlugin.js",
+    "prepare-spec": "node scripts/prepareSpec.js",
     "prepare-main": "node ./scripts/prepareMain.js"
   },
   "devDependencies": {
+    "coffeescript": "1",
+    "cross-spawn": "^6.0.5",
+    "fs-extra": "^8.1.0",
     "concat": "^1.0.3"
   }
 }
