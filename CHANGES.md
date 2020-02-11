@@ -1,6 +1,6 @@
 # Changes
 
-# sqlite-evcustom-browser-memory-storage-ext-free 0.2.0-dev
+# sqlite-evcustom-browser-memory-storage-ext-free 0.2.0-rc1
 
 - quick updates for new sql-asm-debug.js build
   - internal SQL object
