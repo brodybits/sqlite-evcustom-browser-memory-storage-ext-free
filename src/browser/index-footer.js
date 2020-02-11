@@ -1,1 +1,2 @@
-module.exports = window.sqlitePlugin;
+if (typeof module !== 'undefined')
+  module.exports = window.sqlitePlugin;
