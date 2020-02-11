@@ -6,4 +6,3 @@ node_modules
 spec/myplugin
 spec/plugins
 spec/platforms
-spec/www/index.js
