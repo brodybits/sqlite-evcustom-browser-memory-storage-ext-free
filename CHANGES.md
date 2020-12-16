@@ -1,5 +1,9 @@
 # Changes
 
+# sqlite-evcustom-browser-memory-storage-ext-free 0.2.0-rc2
+
+- apply update from sqlite-amalgamation 3.34.0
+
 # sqlite-evcustom-browser-memory-storage-ext-free 0.2.0-rc1
 
 - quick updates for new sql-asm-debug.js build
