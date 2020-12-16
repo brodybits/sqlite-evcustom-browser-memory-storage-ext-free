@@ -1,6 +1,6 @@
 {
   "name": "sqlite-evcustom-browser-memory-storage-ext-free",
-  "version": "0.1.0",
+  "version": "0.2.0-rc2",
   "description": "SQLite evcustom browser memory storage - emulation of Cordova/PhoneGap sqlite storage plugin on browser - custom enterprise version with premium performance improvements and extra features",
   "main": "index.js",
   "cordova-disabled": {
@@ -33,9 +33,15 @@
   },
   "homepage": "https://github.com/brodybits/sqlite-evcustom-browser-memory-storage-ext-free",
   "scripts": {
-    "start": "concat -o index.js index-header.js index-mod1-header.js src/deps/browser/sql-memory-growth.js index-mod1-footer.js index-mod2-header.js src/browser/SQLiteProxy.js index-mod2-footer.js index-mod3-header.js www/SQLitePlugin.js index-mod3-footer.js index-footer.js"
+    "clean-spec": "rm -rf spec/[mnp]* && git cl spec/config.xml && git status --ignored",
+    "prepare-js": "coffee -p SQLitePlugin.coffee.md > www/SQLitePlugin.js",
+    "prepare-spec": "node scripts/prepareSpec.js",
+    "prepare-main": "node ./scripts/prepareMain.js"
   },
   "devDependencies": {
+    "coffeescript": "1",
+    "cross-spawn": "^6.0.5",
+    "fs-extra": "^8.1.0",
     "concat": "^1.0.3"
   }
 }

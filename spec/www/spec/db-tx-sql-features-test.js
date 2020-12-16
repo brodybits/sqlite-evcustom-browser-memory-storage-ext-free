@@ -180,9 +180,8 @@ var mytests = function() {
         }, MYTIMEOUT);
 
         it(suiteName + 'Basic JSON1 json test', function(done) {
-          if (isWebSql) pending('SKIP for Web SQL (not implemented)');
-          // if (!isWebSql && isBrowser) pending('NOT IMPLEMENTED on plugin for browser platform'); // XXX FUTURE TODO
-          if (!isWebSql && !isWindows && isAndroid && isImpl2) pending('TBD SKIP for androidDatabaseImplementation: 2'); // XXX TBD
+          if (isWebSql) pending('SKIP for (WebKit) Web SQL');
+          if (!isWebSql && isAndroid && isImpl2) pending('SKIP for system builtin android.database implementation [androidDatabaseImplementation: 2]');
 
           var db = openDatabase('basic-json1-json-test.db', '1.0', 'Test', DEFAULT_SIZE);
 
@@ -210,9 +209,8 @@ var mytests = function() {
         }, MYTIMEOUT);
 
         it(suiteName + 'JSON1 json_object test', function(done) {
-          if (isWebSql) pending('SKIP for Web SQL (not implemented)');
-          // if (!isWebSql && isBrowser) pending('NOT IMPLEMENTED on plugin for browser platform'); // XXX FUTURE TODO
-          if (!isWebSql && !isWindows && isAndroid && isImpl2) pending('TBD SKIP for androidDatabaseImplementation: 2'); // XXX TBD
+          if (isWebSql) pending('SKIP for (WebKit) Web SQL');
+          if (!isWebSql && isAndroid && isImpl2) pending('SKIP for system builtin android.database implementation [androidDatabaseImplementation: 2]');
 
           var db = openDatabase('json1-json-object-test.db', '1.0', 'Test', DEFAULT_SIZE);
 
@@ -241,9 +239,8 @@ var mytests = function() {
         }, MYTIMEOUT);
 
         it(suiteName + 'create virtual table using FTS5', function(done) {
-          if (isWebSql) pending('SKIP for Web SQL (not implemented)');
-          // if (!isWebSql && isBrowser) pending('NOT IMPLEMENTED on plugin for browser platform'); // XXX FUTURE TODO
-          if (!isWebSql && !isWindows && isAndroid && isImpl2) pending('TBD SKIP for androidDatabaseImplementation: 2'); // XXX TBD
+          if (isWebSql) pending('SKIP for (WebKit) Web SQL');
+          if (!isWebSql && isAndroid && isImpl2) pending('SKIP for system builtin android.database implementation [androidDatabaseImplementation: 2]');
 
           var db = openDatabase('virtual-table-using-fts5.db', '1.0', 'Test', DEFAULT_SIZE);
 

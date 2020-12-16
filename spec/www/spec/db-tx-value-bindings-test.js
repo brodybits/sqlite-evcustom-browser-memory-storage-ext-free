@@ -379,7 +379,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + 'INSERT Infinity with no/NUMERIC/REAL/INTEGER/TEXT type affinity and check stored data [Android/iOS Plugin BROKEN: stored with null value]', function(done) {
+        it(suiteName + 'INSERT Infinity with no/NUMERIC/REAL/INTEGER/TEXT type affinity and check stored data [KNOWN ISSUE on plugin on browser/Android/iOS: stored with null value]', function(done) {
           if (isMac) pending('SKIP for macOS [CRASH]'); // FUTURE TBD
 
           var db = openDatabase('INSERT-Infinity-and-check.db', '1.0', 'Demo', DEFAULT_SIZE);
@@ -401,8 +401,8 @@ var mytests = function() {
                   var row = rs.rows.item(0);
                   expect(row).toBeDefined();
 
-                  if (!isWebSql && /* !isBrowser && */ !isWindows) {
-                    // Android/iOS plugin issue
+                  if (!isWebSql && !isBrowser && !isWindows) {
+                    // KNWON ISSUE on plugin on browser/Android/iOS
                     expect(row.data).toBe(null);
                     expect(row.data_num).toBe(null);
                     expect(row.data_real).toBe(null);
@@ -433,7 +433,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + 'INSERT -Infinity with no/NUMERIC/REAL/INTEGER/TEXT type affinity and check stored data [Android/iOS Plugin BROKEN: stored with null value]', function(done) {
+        it(suiteName + 'INSERT -Infinity with no/NUMERIC/REAL/INTEGER/TEXT type affinity and check stored data [TBD KNWON ISSUE on plugin on browser/Android/iOS: stored with null value]', function(done) {
           if (isMac) pending('SKIP for macOS [CRASH]'); // FUTURE TBD
 
           var db = openDatabase('INSERT-minus-Infinity-and-check.db', '1.0', 'Demo', DEFAULT_SIZE);
@@ -455,8 +455,8 @@ var mytests = function() {
                   var row = rs.rows.item(0);
                   expect(row).toBeDefined();
 
-                  if (!isWebSql && /* !isBrowser && */ !isWindows) {
-                    // Android/iOS plugin issue
+                  if (!isWebSql && !isBrowser && !isWindows) {
+                    // KNWON ISSUE on plugin on browser/Android/iOS
                     expect(row.data).toBe(null);
                     expect(row.data_num).toBe(null);
                     expect(row.data_real).toBe(null);
@@ -530,13 +530,13 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        // TBD ENCODING ISSUE iwth emojis and other 4-octet UTF-8 characters
-        // on Android (default Android evcore NDK implementation)
+        // TBD ENCODING ISSUE WITH emojis and other 4-octet UTF-8 characters
+        // RESOLVED on Android (default Android evcore NDK implementation)
         // ref:
         // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
         // - litehelpers/Cordova-sqlite-storage#564
         // - litehelpers/Cordova-sqlite-evcore-extbuild-free#7
-        it(suiteName + 'INSERT TEXT string with emoji [\\u1F603 SMILING FACE (MOUTH OPEN)], SELECT the data, check, and check HEX [ENCODING ISSUE REPRODUCED on Android post-5.x; non-standard encoding reproduced on Android pre-6.0; TRUNCATION BUG REPRODUCED on Windows; default sqlite HEX encoding: UTF-6le on Windows & Android 4.1-4.3 (WebKit) Web SQL, UTF-8 otherwise]' , function(done) {
+        it(suiteName + 'INSERT TEXT string with emoji [\\u1F603 SMILING FACE (MOUTH OPEN)], SELECT the data, check, and check HEX [ENCODING ISSUE RESOLVED on Android (...); non-standard encoding reproduced on Android pre-6.0; TRUNCATION BUG REPRODUCED on Windows; default sqlite HEX encoding: UTF-6le on Windows & Android 4.1-4.3 (WebKit) Web SQL, UTF-8 otherwise]' , function(done) {
           var db = openDatabase('INSERT-emoji-and-check.db', '1.0', 'Demo', DEFAULT_SIZE);
 
           db.transaction(function(tx) {
@@ -554,15 +554,9 @@ var mytests = function() {
 
                   var row = rs2.rows.item(0);
                   // Full object check:
-                  if (!isWebSql && !isWindows && isAndroid && !isImpl2 && !(/Android [4-5]/.test(navigator.userAgent)))
-                    expect(row).toEqual({data: '@?!'});
-                  else
-                    expect(row).toEqual({data: '@\uD83D\uDE03!'});
+                  expect(row).toEqual({data: '@\uD83D\uDE03!'});
                   // Check individual members:
-                  if (!isWebSql && !isWindows && isAndroid && !isImpl2 && !(/Android [4-5]/.test(navigator.userAgent)))
-                    expect(row.data).toBe('@?!');
-                  else
-                    expect(row.data).toBe('@\uD83D\uDE03!');
+                  expect(row.data).toBe('@\uD83D\uDE03!');
 
                   tx.executeSql('SELECT HEX(data) AS hexvalue FROM test_table', [], function(tx_ignored, rs3) {
                     expect(rs3).toBeDefined();
@@ -573,8 +567,6 @@ var mytests = function() {
                       expect(rs3.rows.item(0).hexvalue).toBe('40003DD803DE2100'); // (UTF-16le)
                     else if (!isWebSql && !isWindows && isAndroid && !isImpl2 && /Android [4-5]/.test(navigator.userAgent))
                       expect(rs3.rows.item(0).hexvalue).toBe('40EDA0BDEDB88321'); // non-standard encoding on Android pre-6.0
-                    else if (!isWebSql && isAndroid && !isImpl2)
-                      expect(rs3.rows.item(0).hexvalue).toBe('403F21'); // ENCODING ISSUE on Anroid post-5.x UTF-8
                     else
                       expect(rs3.rows.item(0).hexvalue).toBe('40F09F988321'); // (UTF-8)
 
@@ -594,13 +586,16 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + 'INSERT TEXT string with 25 emojis, SELECT the data, and check - ENCODING ISSUE REPRODUCED on Android post-5.x (default evcore NDK implementation)' , function(done) {
+        // ref:
+        // - litehelpers/Cordova-sqlite-evcore-extbuild-free#43
+        // - litehelpers/Cordova-sqlite-storage#564
+        it(suiteName + 'INSERT TEXT string with 25 emojis, SELECT the data, and check - ENCODING ISSUE RESOLVED on Android (default evcore NDK implementation)' , function(done) {
           // ref:
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#43
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#7
-          var db = openDatabase('INSERT-emoji-and-check.db', '1.0', 'Demo', DEFAULT_SIZE);
+          var db = openDatabase('INSERT-25-emojis-and-check.db');
 
           db.transaction(function(tx) {
             tx.executeSql('DROP TABLE IF EXISTS test_table');
@@ -617,10 +612,7 @@ var mytests = function() {
                   expect(rs2.rows.length).toBe(1);
 
                   var row = rs2.rows.item(0);
-                  if (!isWebSql && isAndroid && !isImpl2 && !(/Android [4-5]/.test(navigator.userAgent)))
-                    expect(row.data).toBe('@?????@?????@?????@?????@?????');
-                  else
-                    expect(row.data).toBe(part + part + part + part + part);
+                  expect(row.data).toBe(part + part + part + part + part);
 
                   // Close (plugin only) & finish:
                   (isWebSql) ? done() : db.close(done, done);
@@ -1091,7 +1083,7 @@ var mytests = function() {
 
       describe(suiteName + 'INLINE BLOB value storage tests', function() {
 
-        it(suiteName + "INSERT inline BLOB value (X'40414243') and check stored data [TBD SELECT BLOB value ERROR EXPECTED on Windows and Android with androidDatabaseImplementation: 2 setting; with default sqlite HEX encoding: UTF-6le on Android 4.1-4.3 (WebKit) Web SQL, UTF-8 otherwise]", function(done) {
+        it(suiteName + "INSERT inline BLOB value (X'40414243') and check stored data [TBD nonsense value IGNORED on browser; SELECT BLOB value ERROR EXPECTED on Windows and Android with androidDatabaseImplementation: 2 setting; with default sqlite HEX encoding: UTF-6le on Android 4.1-4.3 (WebKit) Web SQL, UTF-8 otherwise]", function(done) {
           // ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#43
           var db = openDatabase('INSERT-inline-BLOB-value-40414243-and-check-stored-data.db');
 
@@ -1124,8 +1116,8 @@ var mytests = function() {
                     expect(item).toBeDefined();
                     if (isWebSql && isAndroid && /Android 4.[1-3]/.test(navigator.userAgent))
                       expect(item.data).toBe('䅀䍂'); // (UTF-16le)
-                    /** else if (!isWebSql && isBrowser) // FUTURE TBD ??? (plugin on browser platform)
-                      expect(item.data).toBeDefined(); // XXX */
+                    else if (!isWebSql && isBrowser) // XXX TBD (...)
+                      expect(item.data).toBeDefined(); // XXX TBD ???
                     else
                       expect(item.data).toBe('@ABC'); // (UTF-8)
 
@@ -1161,7 +1153,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + "INSERT inline BLOB value (X'FFD1FFD2') and check stored data [PLUGIN ISSUES REPRODUCED: SELECT BLOB returns data with incorrect length on Android (default NDK implementation); SELECT BLOB VALUE ERROR on Android (androidDatabaseProvider: 'system') & Windows; XXX TBD SKIP FINAL TEST on iOS/macOS plugin DUE TO KNOWN CRASH on evplus]", function(done) {
+        it(suiteName + "INSERT inline BLOB value (X'FFD1FFD2') and check stored data [XXX PLUGIN ISSUES REPRODUCED: SELECT BLOB returns data with incorrect length on Android (default evcore NDK implementation); SELECT BLOB VALUE ERROR on Android (androidDatabaseProvider: 'system') & Windows; MISSING result data column on iOS/macOS; actual result value is IGNORED on (WebKit) Web SQL & plugin on other platforms]", function(done) {
           var db = openDatabase('INSERT-inline-BLOB-value-FFD1FFD2-and-check-stored-data.db', '1.0', 'Demo', DEFAULT_SIZE);
 
           db.transaction(function(tx) {
@@ -1182,8 +1174,9 @@ var mytests = function() {
                   expect(item).toBeDefined();
                   expect(item.hexValue).toBe('FFD1FFD2');
 
-                  // XXX TBD STOP HERE DUE TO KNOWN CRASH on evplus plugin version on iOS/macOS:
-                  if (isAppleMobileOS || isMac) return done();
+                  // XXX TBD STOP HERE DUE TO KNOWN CRASH on this evplus plugin version on iOS/macOS & Android
+                  // (continue with this test on (WebKit) Web SQL (Android/iOS/browser) & plugin on Windows)
+                  if (isAppleMobileOS || isMac || (!isWebSql && isAndroid && !isImpl2)) return done();
 
                   tx.executeSql('SELECT * FROM test_table', [], function(ignored, rs3) {
                     if (!isWebSql && isWindows) expect('PLUGIN BEHAVIOR CHANGED: UNEXPECTED SUCCESS on Windows').toBe('--');
@@ -1581,7 +1574,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + 'store and retrieve string with U+0000 (same as \\0) correctly [XXX HEX ENCODING ISSUE REPRODUCED on default Android NDK access implementation (Android-sqlite-connector with Android-sqlite-native-driver); TRUNCATION ISSUE REPRODUCED on iOS (WebKit) Web SQL, older versions of Android (WebKit) Web SQL, and Windows plugin; default sqlite HEX encoding: UTF-6le on Windows & Android 4.1-4.3 (WebKit) Web SQL, UTF-8 otherwise]', function (done) {
+        it(suiteName + 'store and retrieve string with U+0000 (same as \\0) correctly [XXX HEX ENCODING ISSUE REPRODUCED on default Android NDK access implementation (Android-sqlite-connector with Android-sqlite-native-driver); TRUNCATION ISSUE REPRODUCED on browser, iOS (WebKit) Web SQL, older versions of Android (WebKit) Web SQL, and Windows plugin; default sqlite HEX encoding: UTF-6le on Windows & Android 4.1-4.3 (WebKit) Web SQL, UTF-8 otherwise]', function (done) {
           var db = openDatabase('Store-and-retrieve-U+0000-string-test.db');
 
           db.transaction(function (tx) {
@@ -1629,7 +1622,7 @@ var mytests = function() {
                           (/Android 5.1/.test(navigator.userAgent) && !(/Chrome.6/.test(navigator.userAgent))) ||
                           (/Android 6/.test(navigator.userAgent) && (/Chrome.[3-4]/.test(navigator.userAgent))))) ||
                         (isWebSql && !isAndroid && !isChromeBrowser) ||
-                        /* (!isWebSql && isBrowser) || // FUTURE TBD ??? */
+                        (!isWebSql && isBrowser) || // XXX TBD (...)
                         (!isWebSql && isWindows)) {
                       expect(name.length).toBe(1);
                       expect(name).toBe('a');

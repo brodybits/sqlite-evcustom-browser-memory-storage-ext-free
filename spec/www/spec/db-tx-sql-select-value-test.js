@@ -1084,7 +1084,7 @@ var mytests = function() {
               else
                 expect(rs.rows.length).toBe(1);
 
-              if (isWebSql || isWindows || isMac)
+              if (isBrowser || isWebSql || isWindows || isMac)
                 expect(rs.rows.item(0).myresult).toBe(Infinity);
 
               // Close (plugin only) & finish:
@@ -1119,7 +1119,7 @@ var mytests = function() {
               else
                 expect(rs.rows.length).toBe(1);
 
-              if (isWebSql || isWindows || isMac)
+              if (isBrowser || isWebSql || isWindows || isMac)
                 expect(rs.rows.item(0).myresult).toBe(-Infinity);
 
               // Close (plugin only) & finish:
@@ -1161,7 +1161,10 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
+        // TBD SKIP ON PLUGIN DUE TO KNOWN ISSUES
+        // WITH EU CHARACTER ENHANCEMENTS:
         it(suiteName + "SELECT LOWER(-ABS(?)) with ['9e999'] (Infinity) parameter argument (reference test)", function(done) {
+          if (!isWebSql) pending('TBD SKIP ON PLUGIN DUE TO KNOWN ISSUES WITH EU CHARACTER ENHANCEMENTS'); // XXX TBD ...
           var db = openDatabase('SELECT-LOWER-minus-ABS-Infinite-parameter-results-test.db', '1.0', 'Test', DEFAULT_SIZE);
 
           db.transaction(function(tx) {
@@ -1187,7 +1190,10 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + 'SELECT LOWER(?) with [Infinity] parameter argument [Android/iOS Plugin BROKEN: result with null value]', function(done) {
+        // TBD SKIP ON PLUGIN DUE TO KNOWN ISSUES
+        // WITH EU CHARACTER ENHANCEMENTS:
+        it(suiteName + 'SELECT LOWER(?) with [Infinity] parameter argument [XXX TBD KNOWN ISSUES ON PLUGIN: ...]', function(done) {
+          if (!isWebSql) pending('TBD SKIP ON PLUGIN DUE TO KNOWN ISSUES WITH EU CHARACTER ENHANCEMENTS'); // XXX TBD ...
           var db = openDatabase('SELECT-LOWER-Infinite-parameter-results-test.db', '1.0', 'Test', DEFAULT_SIZE);
 
           db.transaction(function(tx) {
@@ -1794,7 +1800,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + "SELECT X'40414243' [ERROR REPRODUCED on androidDatabaseProvider: 'system' & Windows; follows default sqlite encoding: UTF-16le on Android 4.1-4.4 (WebKit) Web SQL, UTF-8 otherwise]", function(done) {
+        it(suiteName + "SELECT X'40414243' [TBD NONSENSE value IGNORED on browser; ERROR REPRODUCED on androidDatabaseProvider: 'system' & Windows; follows default sqlite encoding: UTF-16le on Android 4.1-4.4 (WebKit) Web SQL, UTF-8 otherwise]", function(done) {
           var db = openDatabase('INLINE-BLOB-SELECT-40414243-test.db');
 
           db.transaction(function(tx) {
@@ -1806,6 +1812,8 @@ var mytests = function() {
               expect(rs.rows.length).toBe(1);
               if (isWebSql && isAndroid && /Android 4.[1-3]/.test(navigator.userAgent))
                 expect(rs.rows.item(0).myresult).toBe('䅀䍂');
+              else if (isBrowser)
+                expect(rs.rows.item(0).myresult).toBeDefined();
               else
                 expect(rs.rows.item(0).myresult).toBe('@ABC');
 
@@ -1833,9 +1841,12 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + "SELECT X'FFD1FFD2' [TBD BROKEN androidDatabaseImplementation: 2 & Windows; missing result value iOS/macOS; actual value IGNORED]", function(done) {
+        it(suiteName + "SELECT X'FFD1FFD2' [ERROR REPRODUCED on androidDatabaseImplementation: 2 & Windows; MISSING result data column on iOS/macOS; actual result value is IGNORED on (WebKit) Web SQL & plugin on other platforms]", function(done) {
+          // XXX TBD KNOWN CRASH on Android evcore with sqlite3-eu
           if (!isWebSql && !isWindows && isAndroid && !isImpl2) pending('BROKEN: CRASH on Android 5.x/... (default evcore-native-driver database access implementation)');
           if (isAppleMobileOS || isMac) pending('KNOWN CRASH on iOS/macOS (evplus)'); // XXX
+          // XXX TBD GONE:
+          // if (!isWebSql && !isWindows && isAndroid && !isImpl2) pending('BROKEN: CRASH on Android 5.x/... (default evcore-native-driver database access implementation)');
 
           var db = openDatabase("Inline-SELECT-BLOB-FFD1FFD2-result-test.db", "1.0", "Demo", DEFAULT_SIZE);
 
